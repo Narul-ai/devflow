@@ -36,20 +36,20 @@ const CreatePost = ({ onPostCreated }) => {
             // Достаем токен, сохраненный при авторизации
             const token = localStorage.getItem('token'); 
 
-            const response = await axios.post(
-                'http://localhost:5000/api/v1/posts', // Проверь свой порт бэкенда
-                {
-                    title,
-                    content,
-                    tags: tagsArray,
-                    category
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }
-            );
+           const response = await axios.post(
+    '/posts', // Теперь Axios автоматически подставит в начало базовый URL из Render
+    {
+        title,
+        content,
+        tags: tagsArray,
+        category
+    },
+    {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+);
 
             if (response.data.status === 'success') {
                 // Очищаем форму

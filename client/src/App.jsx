@@ -3,8 +3,8 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'r
 import { Toaster, toast } from 'react-hot-toast';
 import axios from 'axios';
 
-// Настройка базового URL для Axios
-axios.defaults.baseURL = 'http://localhost:5000/api/v1';
+// Настройка базового URL для Axios (Переключено на живой бэкенд в Render)
+axios.defaults.baseURL = 'https://devflow-backend-l85l.onrender.com/api/v1';
 
 // ДИНАМИЧЕСКИЙ ИМПОРТ (Lazy Loading) компонентов
 const Navbar = lazy(() => import('./components/Navbar'));
@@ -69,6 +69,32 @@ export const AuthProvider = ({ children }) => {
       }
     } catch (err) {
       console.error('Ошибка обновления профиля:', err.message);
+    }
+  }, [token]);
+
+  // ФИЧА: Подписка/отписка (Интегрирована в контекст)
+  const handleFollow = React.useCallback(async (authorId) => {
+    if (!token) return;
+    try {
+      const response = await axios.patch(`/users/follow/${authorId}`, {}, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      if (response.data.status === 'success') {
+        setUser(prevUser => {
+          if (!prevUser) return null;
+          const hasFollowingField = prevUser.following || [];
+          const isAlreadyFollowing = hasFollowingField.includes(authorId);
+          
+          const updatedFollowing = isAlreadyFollowing
+            ? hasFollowingField.filter(id => id.toString() !== authorId.toString())
+            : [...hasFollowingField, authorId];
+
+          return { ...prevUser, following: updatedFollowing };
+        });
+      }
+    } catch (error) {
+      console.error("Ошибка при обработке подписки:", error);
     }
   }, [token]);
 
@@ -140,7 +166,7 @@ export const AuthProvider = ({ children }) => {
   }, [token, logout]);
 
   return (
-    <AuthContext.Provider value={{ token, user, loading, isOnline, login, logout, refreshUser }}>
+    <AuthContext.Provider value={{ token, user, loading, isOnline, login, logout, refreshUser, handleFollow }}>
       {children}
     </AuthContext.Provider>
   );
@@ -149,7 +175,7 @@ export const AuthProvider = ({ children }) => {
 // Безопасный хук использования контекста с защитой от возврата null
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  return context || { token: null, user: null, loading: false, isOnline: true, login: () => {}, logout: () => {}, refreshUser: () => {} };
+  return context || { token: null, user: null, loading: false, isOnline: true, login: () => {}, logout: () => {}, refreshUser: () => {}, handleFollow: () => {} };
 };
 
 // РОУТ ГАРДЫ
@@ -162,7 +188,8 @@ const ProtectedRoute = ({ children }) => {
 const PublicRoute = ({ children }) => {
   const { token, loading } = useAuth();
   if (loading) return <PageLoader />;
-  return !token ? children : <Navigate to="/auth" replace />;
+  // ИСПРАВЛЕНО: Теперь авторизованного пользователя перенаправляет на Главную ленту, а не закольцовывает на /auth
+  return !token ? children : <Navigate to="/" replace />;
 };
 
 // ВНУТРЕННИЙ КОМПОНЕНТ ДЛЯ КОРРЕКТНОЙ РАБОТЫ ХУКОВ РОУТЕРА
@@ -266,31 +293,6 @@ const AppContent = ({ searchQuery, setSearchQuery }) => {
       </main>
     </div>
   );
-};
-
-const handleFollow = async (authorId) => {
-  try {
-    // Используем метод PATCH и роут /follow/:id, как в userRoutes.js
-    const response = await axios.patch(`/api/users/follow/${authorId}`, {}, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-
-    if (response.data.status === 'success') {
-      // Обновляем состояние текущего юзера (добавляем или удаляем ID автора)
-      setCurrentUser(prevUser => {
-        const hasFollowingField = prevUser.following || [];
-        const isAlreadyFollowing = hasFollowingField.includes(authorId);
-        
-        const updatedFollowing = isAlreadyFollowing
-          ? hasFollowingField.filter(id => id.toString() !== authorId.toString()) // отписка
-          : [...hasFollowingField, authorId]; // подписка
-
-        return { ...prevUser, following: updatedFollowing };
-      });
-    }
-  } catch (error) {
-    console.error("Ошибка при обработке подписки:", error);
-  }
 };
 
 // ОСНОВНОЙ КОРНЕВОЙ КОМПОНЕНТ APP

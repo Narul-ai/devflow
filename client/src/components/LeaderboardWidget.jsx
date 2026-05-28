@@ -10,7 +10,7 @@ const LeaderboardWidget = () => {
     const fetchLeaderboard = async () => {
       try {
         // Укажи свой точный URL до бэкенда. Например, '/api/v1/users/leaderboard' или через полный localhost
-        const res = await axios.get('http://localhost:5000/api/v1/auth/leaderboard'); 
+       const res = await axios.get('/auth/leaderboard');
         
         // Сверяемся с твоим форматом ответа: status === 'success'
         if (res.data?.status === 'success' && res.data?.data?.users) {
@@ -71,17 +71,17 @@ const LeaderboardWidget = () => {
                   </div>
 
                   {/* 🌟 ЖЕЛЕЗОБЕТОННЫЙ ФИКС АВАТАРОК: рендерим картинку, если она есть, иначе падаем в дефолтную букву */}
-                  {leaderAvatar ? (
-                    <img 
-                      src={leaderAvatar} 
-                      alt={leader.username || "avatar"} 
-                      className="w-7 h-7 rounded-full object-cover border border-white/10 shadow-md"
-                    />
-                  ) : (
-                    <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-slate-800 to-slate-900 border border-white/10 flex items-center justify-center text-[10px] font-black text-slate-300 uppercase shadow-md">
-                      {leader.username ? leader.username.charAt(0) : <User size={10}/>}
-                    </div>
-                  )}
+{leaderAvatar ? (
+  <img 
+    src={leaderAvatar} 
+    alt={leader.username || "avatar"} 
+    className="w-7 h-7 rounded-full object-cover border border-white/10 shadow-md shrink-0"
+  />
+) : (
+  <div className="w-7 h-7 rounded-full bg-gradient-to-br from-indigo-600 to-blue-500 border border-indigo-400/30 flex items-center justify-center text-[11px] font-bold text-white uppercase shadow-md shadow-indigo-500/10 shrink-0 select-none">
+    {leader.username ? leader.username.charAt(0) : <User size={12}/>}
+  </div>
+)}
 
                   {/* Юзернейм */}
                   <div className="max-w-[110px] truncate">

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../App';
-import axios from 'axios';
+import api from '../api/index'; // Стало (проверь путь до папки api относительно Auth.jsx)
 import toast from 'react-hot-toast';
 
 const Auth = () => {
@@ -48,7 +48,8 @@ const Auth = () => {
     
     try {
       // Работаем через глобальный axios, настроенный в App.jsx
-      const res = await axios.post(endpoint, formData);
+      // Стало:
+const res = await api.post(endpoint, formData);
       
       if (res.data.status === 'success') {
         // Записываем сессию в наш глобальный контекст

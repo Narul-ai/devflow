@@ -3,17 +3,13 @@ import { useAuth } from '../App';
 import { 
   User, Mail, Calendar, Award, BookOpen, Trash2, Clock, 
   MapPin, Globe, Edit3, X, Bookmark, Code, Users, 
-  Activity, Flame, Sparkles, PlusCircle, ExternalLink, Image, ArrowRight
+  Activity, Flame, Sparkles, PlusCircle, ExternalLink, Image
 } from 'lucide-react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import Avatar from './Avatar'; // Импортируем наш универсальный компонент аватара
-
-// Создаем инстанс axios с базовым URL
-const API = axios.create({ baseURL: 'http://localhost:5000/api/v1' });
+import Avatar from './Avatar';
 
 const Profile = () => {
-  // Достаем refreshUser, чтобы мгновенно обновлять шапку при смене аватарки
   const { user: authUser, token, refreshUser } = useAuth();
   
   const [profile, setProfile] = useState(null);
@@ -93,7 +89,8 @@ const Profile = () => {
   const fetchProfileData = async () => {
     try {
       setLoading(true);
-      const res = await API.get(`/users/${authUser.username}`, getAuthConfig());
+      // ИСПОЛЬЗУЕМ ГЛОБАЛЬНЫЙ AXIOS
+      const res = await axios.get(`/users/${authUser.username}`, getAuthConfig());
       
       if (res.data.status === 'success') {
         const { user, posts, stats: userStats } = res.data.data;
@@ -130,7 +127,8 @@ const Profile = () => {
     if (!window.confirm("Вы уверены, что хотите удалить эту публикацию?")) return;
 
     try {
-      await API.delete(`/posts/${postId}`, getAuthConfig());
+      // ИСПОЛЬЗУЕМ ГЛОБАЛЬНЫЙ AXIOS
+      await axios.delete(`/posts/${postId}`, getAuthConfig());
       toast.success("Публикация успешно удалена");
       setMyPosts(prev => prev.filter(post => post._id !== postId));
       setStats(prev => ({ ...prev, totalPosts: Math.max(0, prev.totalPosts - 1) }));
@@ -153,7 +151,8 @@ const Profile = () => {
   const handlePostEditSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await API.patch(`/posts/${selectedPost._id}`, postEditData, getAuthConfig());
+      // ИСПОЛЬЗУЕМ ГЛОБАЛЬНЫЙ AXIOS
+      const res = await axios.patch(`/posts/${selectedPost._id}`, postEditData, getAuthConfig());
       if (res.data.status === 'success' || res.status === 200) {
         toast.success("Пост успешно изменен!");
         setIsEditPostModalOpen(false);
@@ -171,7 +170,8 @@ const Profile = () => {
       return;
     }
     try {
-      const res = await API.post(`/posts/${postId}/bookmark`, {}, getAuthConfig());
+      // ИСПОЛЬЗУЕМ ГЛОБАЛЬНЫЙ AXIOS
+      const res = await axios.post(`/posts/${postId}/bookmark`, {}, getAuthConfig());
       toast.success(res.data.message || "Закладки обновлены");
       
       if (res.data.data?.bookmarks) {
@@ -188,12 +188,11 @@ const Profile = () => {
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await API.patch('/users/updateMe', formData, getAuthConfig());
+      const res = await axios.patch('/users/updateMe', formData, getAuthConfig());
+      
       if (res.data.status === 'success') {
         toast.success("Профиль успешно обновлен!");
         setIsEditModalOpen(false);
-        
-        // Синхронизируем глобальное состояние и обновляем страницу профиля
         await refreshUser();
         fetchProfileData();
       }
@@ -234,7 +233,6 @@ const Profile = () => {
         <div className="absolute -right-24 -bottom-24 w-72 h-72 bg-gradient-to-tr from-blue-600/15 to-cyan-500/5 rounded-full blur-3xl pointer-events-none group-hover:scale-150 group-hover:from-blue-600/20 transition-all duration-1000"></div>
         <div className="absolute -left-24 -top-24 w-72 h-72 bg-gradient-to-br from-indigo-500/10 to-purple-500/5 rounded-full blur-3xl pointer-events-none group-hover:translate-x-12 transition-all duration-1000"></div>
         
-        {/* Использование нового независимого компонента Avatar */}
         <div className="relative group/avatar cursor-pointer shrink-0">
           <Avatar 
             avatarUrl={displayUser?.avatar} 
@@ -524,20 +522,19 @@ const Profile = () => {
                 </select>
               </div>
 
+              {/* ДОПИСАННАЯ ЧАСТЬ */}
               <div className="space-y-1.5">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-wide">Содержимое публикации</label>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-wide">Содержимое</label>
                 <textarea 
                   value={postEditData.content} 
                   onChange={(e) => setPostEditData({...postEditData, content: e.target.value})} 
-                  rows={6} 
-                  className="w-full bg-[#020617] border border-white/5 focus:border-blue-500/40 rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none transition-all duration-300 resize-none custom-scrollbar" 
-                  required 
-                />
+                  className="w-full bg-[#020617] border border-white/5 focus:border-blue-500/40 rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none transition-all duration-300 resize-none h-32" 
+                  required
+                ></textarea>
               </div>
-
-              <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/5">
+              <div className="flex justify-end gap-3 pt-4 border-t border-white/5">
                 <button type="button" onClick={() => setIsEditPostModalOpen(false)} className="px-4 py-2 text-sm font-bold text-slate-400 hover:text-white">Отмена</button>
-                <button type="submit" className="px-6 py-2 bg-gradient-to-r from-blue-500 to-indigo-500 text-white font-bold rounded-xl shadow-lg transition-all active:scale-95">Сохранить изменения</button>
+                <button type="submit" className="px-6 py-2 bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-bold rounded-xl shadow-lg transition-all active:scale-95">Сохранить</button>
               </div>
             </form>
           </div>
