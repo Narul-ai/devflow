@@ -1,0 +1,140 @@
+{
+  "auth": {
+    "login": {
+      "title": "Вход в систему",
+      "subtitle": "Рады видеть тебя снова в DevFlow"
+    },
+    "register": {
+      "title": "Регистрация",
+      "subtitle": "Присоединяйся к комьюнити разработчиков"
+    },
+    "fields": {
+      "username": "Никнейм",
+      "email": "Email адрес",
+      "password": "Пароль",
+      "passwordConfirm": "Подтверждение пароля"
+    },
+    "buttons": {
+      "login": "Авторизоваться",
+      "register": "Создать аккаунт"
+    },
+    "switch": {
+      "toRegister": "Нет аккаунта? Зарегистрируйся",
+      "toLogin": "Уже есть аккаунт? Войди"
+    },
+    "validation": {
+      "username": "Никнейм должен быть не короче 3 символов",
+      "passwordLength": "Пароль должен содержать минимум 8 символов",
+      "passwordMatch": "Введенные пароли не совпадают"
+    },
+    "toast": {
+      "welcome": "С возвращением, {{username}}!",
+      "success": "Аккаунт успешно создан!",
+      "error": "Ошибка доступа. Проверьте данные."
+    }
+  },
+  "feed": {
+    "prodLabel": "PROD",
+    "xpLabel": "XP",
+    "cabinet": "Кабинет",
+    "profileBioFallback": "Разработчик экосистемы и ядра DevFlow",
+    "userSessionEmpty": "system // user_session_empty",
+    "widgetsTitle": "Виджеты",
+    "widgetsButton": "Виджеты",
+    "close": "Закрыть",
+    "headerTitle": "Devflow / Лента",
+    "postFormTitle": "Поток мыслей",
+    "placeholders": {
+      "title": "Заголовок идеи...",
+      "content": "Разверни свою мысль подробно..."
+    },
+    "chars": "симв.",
+    "categoryLabel": "Категория:",
+    "publishButton": "Опубликовать мысль",
+    "filters": {
+      "all": "Все потоки"
+    },
+    "tags": {
+      "development": "development",
+      "architecture": "architecture",
+      "javascript": "javascript",
+      "database": "database",
+      "design": "design",
+      "backend": "backend",
+      "frontend": "frontend",
+      "devops": "devops",
+      "security": "security",
+      "python": "python",
+      "networking": "networking",
+      "ai_ml": "ai_ml"
+    },
+    "topContributors": "Top Contributors",
+    "noLeadersData": "NO_LEADERS_DATA",
+    "trendingTags": "Trending Tags",
+    "devTip": {
+      "title": "Devflow Tip",
+      "rotate": "Сменить совет",
+      "tips": [
+        "MongoDB: Лимит размера BSON-документа — 16MB. Сложные вложенные массивы выноси в отдельные коллекции через Reference связи.",
+        "React: Оптимизируешь дочерние компоненты через React.memo? Всегда оборачивай их функции-пропсы в кастомный useCallback.",
+        "Node.js: Защищай заголовки API! Обязательно ставь мидлвар helmet и настраивай express-rate-limit против DDoS-клиентов.",
+        "Clean Code: Бизнес-логика одного React-компонента разрослась свыше 200 строк? Изолируй стейт в кастомный React-хук.",
+        "Performance: Пользуйся динамическим импортом React.lazy() и блоков Suspense, чтобы кардинально снизить вес главного бандла."
+      ]
+    },
+    "flowEmpty": "FLOW_IS_EMPTY",
+    "readTime_one": "{{count}} мин чтения",
+    "readTime_few": "{{count}} мин чтения",
+    "readTime_many": "{{count}} мин чтения",
+    "readTime_other": "{{count}} мин чтения",
+    "validation": {
+      "titleMin": "Заголовок должен содержать минимум 10 символов",
+      "contentMin": "Опишите мысль подробнее (минимум 20 символов)",
+      "commentMin": "Комментарий слишком короткий"
+    },
+    "toast": {
+      "postPublished": "Мысль успешно добавлена в поток!",
+      "bookmarkAdded": "Добавлено в закладки",
+      "bookmarkRemoved": "Удалено из закладок",
+      "commentAdded": "Комментарий добавлен",
+      "commentDeleted": "Комментарий успешно удален",
+      "followUiFollow": "Подписка (UI)",
+      "followUiUnfollow": "Отписка (UI)"
+    },
+    "errors": {
+      "fetchPostsConsole": "Ошибка при получении постов:",
+      "fetchPostsToast": "Не удалось обновить ленту публикаций",
+      "publishPost": "Ошибка при публикации",
+      "likeFail": "Не удалось обработать рейтинг",
+      "bookmarkAuth": "Авторизуйтесь, чтобы сохранять закладки",
+      "bookmarkConsole": "Ошибка при обработке закладки:",
+      "bookmarkFail": "Не удалось обновить закладки",
+      "loadCommentsConsole": "Ошибка при загрузке комментариев:",
+      "loadCommentsToast": "Не удалось загрузить обсуждение",
+      "sendCommentFail": "Не удалось отправить комментарий",
+      "deleteCommentConsole": "Ошибка при удалении комментария:",
+      "deleteCommentFail": "Не удалось удалить комментарий",
+      "followAuth": "Авторизуйтесь, чтобы подписываться на авторов",
+      "followApiWarn": "Follow API пока не готов / ошибка:",
+      "leaderboardConsole": "Ошибка лидерборда:"
+    }
+  },
+  "navbar": {
+    "placeholders": {
+      "search": "Поиск публикаций..."
+    },
+    "buttons": {
+      "login": "Войти"
+    },
+    "tooltips": {
+      "feed": "Главная лента",
+      "reputation": "Репутация в DevFlow",
+      "profile": "В профиль",
+      "logout": "Выйти из аккаунта"
+    },
+    "toast": {
+      "logoutSuccess": "Вы успешно вышли из системы"
+    }
+  }
+}
+

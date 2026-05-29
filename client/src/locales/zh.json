@@ -1,0 +1,137 @@
+{
+  "auth": {
+    "login": {
+      "title": "登录系统",
+      "subtitle": "欢迎回到 DevFlow"
+    },
+    "register": {
+      "title": "注册账号",
+      "subtitle": "加入开发者社区"
+    },
+    "fields": {
+      "username": "用户名",
+      "email": "电子邮箱",
+      "password": "密码",
+      "passwordConfirm": "确认密码"
+    },
+    "buttons": {
+      "login": "授权登录",
+      "register": "创建账户"
+    },
+    "switch": {
+      "toRegister": "没有账号？立即注册",
+      "toLogin": "已有账号？立即登录"
+    },
+    "validation": {
+      "username": "用户名长度不能少于3个字符",
+      "passwordLength": "密码长度不能少于8个字符",
+      "passwordMatch": "两次输入的密码不一致"
+    },
+    "toast": {
+      "welcome": "欢迎回来，{{username}}！",
+      "success": "账户创建成功！",
+      "error": "访问拒绝。请检查输入的信息。"
+    }
+  },
+  
+  "feed": {
+    "prodLabel": "PROD",
+    "xpLabel": "XP",
+    "cabinet": "个人中心",
+    "profileBioFallback": "DevFlow 生态与核心开发者",
+    "userSessionEmpty": "system // user_session_empty",
+    "widgetsTitle": "小组件",
+    "widgetsButton": "小组件",
+    "close": "关闭",
+    "headerTitle": "Devflow / 动态",
+    "postFormTitle": "想法流",
+    "placeholders": {
+      "title": "想法标题…",
+      "content": "详细展开你的想法…"
+    },
+    "chars": "字符",
+    "categoryLabel": "分类：",
+    "publishButton": "发布想法",
+    "filters": {
+      "all": "全部"
+    },
+    "tags": {
+      "development": "development",
+      "architecture": "architecture",
+      "javascript": "javascript",
+      "database": "database",
+      "design": "design",
+      "backend": "backend",
+      "frontend": "frontend",
+      "devops": "devops",
+      "security": "security",
+      "python": "python",
+      "networking": "networking",
+      "ai_ml": "ai_ml"
+    },
+    "topContributors": "Top Contributors",
+    "noLeadersData": "NO_LEADERS_DATA",
+    "trendingTags": "Trending Tags",
+    "devTip": {
+      "title": "Devflow Tip",
+      "rotate": "切换提示",
+      "tips": [
+        "MongoDB：BSON 文档大小上限为 16MB。复杂嵌套数组建议拆分到独立集合并使用引用关联。",
+        "React：对子组件用 React.memo？请把函数型 props 用 useCallback 包一层。",
+        "Node.js：保护 API 头信息！使用 helmet，并配置 express-rate-limit 防止滥用请求。",
+        "代码整洁：如果一个 React 组件的业务逻辑超过约 200 行，把状态抽到自定义 Hook。",
+        "性能：使用 React.lazy() 与 Suspense 减少首屏包体积。"
+      ]
+    },
+    "flowEmpty": "FLOW_IS_EMPTY",
+    "readTime": "阅读 {{count}} 分钟",
+    "validation": {
+      "titleMin": "标题至少需要 10 个字符",
+      "contentMin": "请更详细描述（至少 20 个字符）",
+      "commentMin": "评论太短"
+    },
+    "toast": {
+      "postPublished": "想法已发布到流中！",
+      "bookmarkAdded": "已加入书签",
+      "bookmarkRemoved": "已移除书签",
+      "commentAdded": "评论已添加",
+      "commentDeleted": "评论已删除",
+      "followUiFollow": "已关注（UI）",
+      "followUiUnfollow": "已取消关注（UI）"
+    },
+    "errors": {
+      "fetchPostsConsole": "获取帖子出错：",
+      "fetchPostsToast": "无法刷新动态",
+      "publishPost": "发布失败",
+      "likeFail": "无法更新评分",
+      "bookmarkAuth": "请先登录再使用书签",
+      "bookmarkConsole": "书签操作出错：",
+      "bookmarkFail": "无法更新书签",
+      "loadCommentsConsole": "加载评论出错：",
+      "loadCommentsToast": "无法加载讨论",
+      "sendCommentFail": "无法发送评论",
+      "deleteCommentConsole": "删除评论出错：",
+      "deleteCommentFail": "无法删除评论",
+      "followAuth": "请先登录再关注作者",
+      "followApiWarn": "关注接口未就绪/错误：",
+      "leaderboardConsole": "排行榜出错："
+    }
+  },
+"navbar": {
+    "placeholders": {
+      "search": "搜索文章..."
+    },
+    "buttons": {
+      "login": "登录"
+    },
+    "tooltips": {
+      "feed": "主页动态",
+      "reputation": "DevFlow 声誉值",
+      "profile": "个人主页",
+      "logout": "退出登录"
+    },
+    "toast": {
+      "logoutSuccess": "您已成功退出登录"
+    }
+  }
+}

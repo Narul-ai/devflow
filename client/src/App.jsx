@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'r
 import { Toaster, toast } from 'react-hot-toast';
 import axios from 'axios';
 
-// Настройка базового URL для Axios (Переключено на живой бэкенд в Render)
+// Настройка базового URL для Axios
 axios.defaults.baseURL = 'https://devflow-backend-l85l.onrender.com/api/v1';
 
 // ДИНАМИЧЕСКИЙ ИМПОРТ (Lazy Loading) компонентов
@@ -56,13 +56,25 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   }, []);
 
-  // ФИЧА: Обновление данных юзера (включая аватарку)
+  // УЛУЧШЕНО: Автоматический интерцептор для отправки токена (Больше не нужно писать Headers вручную в каждом запросе!)
+  useEffect(() => {
+    const requestInterceptor = axios.interceptors.request.use(
+      (config) => {
+        if (token) {
+          config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+      },
+      (error) => Promise.reject(error)
+    );
+    return () => axios.interceptors.request.eject(requestInterceptor);
+  }, [token]);
+
+  // ФИЧА: Обновление данных юзера
   const refreshUser = React.useCallback(async () => {
     if (!token) return;
     try {
-      const response = await axios.get('/auth/me', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const response = await axios.get('/auth/me');
       if (response.data.status === 'success') {
         const userData = response.data.data?.user || response.data.user;
         setUser(userData);
@@ -72,13 +84,11 @@ export const AuthProvider = ({ children }) => {
     }
   }, [token]);
 
-  // ФИЧА: Подписка/отписка (Интегрирована в контекст)
+  // ФИЧА: Подписка/отписка
   const handleFollow = React.useCallback(async (authorId) => {
     if (!token) return;
     try {
-      const response = await axios.patch(`/users/follow/${authorId}`, {}, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const response = await axios.patch(`/users/follow/${authorId}`, {});
 
       if (response.data.status === 'success') {
         setUser(prevUser => {
@@ -98,7 +108,7 @@ export const AuthProvider = ({ children }) => {
     }
   }, [token]);
 
-  // МОНИТОРИНГ ИНТЕРНЕТ-СОЕДИНЕНИЯ
+  // MONITORING INTERNET CONNECTION
   useEffect(() => {
     const handleOnline = () => {
       setIsOnline(true);
@@ -125,7 +135,7 @@ export const AuthProvider = ({ children }) => {
     };
   }, [refreshUser]);
 
-  // Axios-интерцептор для автовыхода при 401
+  // Axios-интерцептор для автовыхода при 401 ошибке (Токен просрочен)
   useEffect(() => {
     const interceptor = axios.interceptors.response.use(
       (response) => response,
@@ -140,7 +150,7 @@ export const AuthProvider = ({ children }) => {
     return () => axios.interceptors.response.eject(interceptor);
   }, [logout]);
 
-  // ВЕРИФИКАЦИЯ СЕССИИ ПРИ ЗАГРУЗКЕ
+  // ВЕРИФИКАЦИЯ СЕССИИ ПРИ ЗАГРУЗКЕ ПРИЛОЖЕНИЯ
   useEffect(() => {
     const verifySession = async () => {
       if (!token) {
@@ -148,9 +158,7 @@ export const AuthProvider = ({ children }) => {
         return;
       }
       try {
-        const response = await axios.get('/auth/me', {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+        const response = await axios.get('/auth/me');
         if (response.data.status === 'success') {
           const userData = response.data.data?.user || response.data.user;
           setUser(userData);
@@ -172,7 +180,7 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-// Безопасный хук использования контекста с защитой от возврата null
+// Безопасный хук использования контекста
 export const useAuth = () => {
   const context = useContext(AuthContext);
   return context || { token: null, user: null, loading: false, isOnline: true, login: () => {}, logout: () => {}, refreshUser: () => {}, handleFollow: () => {} };
@@ -188,7 +196,6 @@ const ProtectedRoute = ({ children }) => {
 const PublicRoute = ({ children }) => {
   const { token, loading } = useAuth();
   if (loading) return <PageLoader />;
-  // ИСПРАВЛЕНО: Теперь авторизованного пользователя перенаправляет на Главную ленту, а не закольцовывает на /auth
   return !token ? children : <Navigate to="/" replace />;
 };
 
@@ -222,9 +229,8 @@ const AppContent = ({ searchQuery, setSearchQuery }) => {
   }, [navigate]);
 
   return (
-    <div className="min-w-0 min-h-screen bg-[#020617] text-slate-200 antialiased selection:bg-blue-500/30 selection:text-blue-200 relative">
+    <div className="notranslate min-w-0 min-h-screen bg-[#020617] text-slate-200 antialiased selection:bg-blue-500/30 selection:text-blue-200 relative" translate="no">
       
-      {/* ================= INJECTED CUSTOM PREMIUM CSS ANIMATIONS ================= */}
       <style>{`
         @keyframes drift-slow {
           0% { transform: translate(0px, 0px) scale(1); }
@@ -240,7 +246,7 @@ const AppContent = ({ searchQuery, setSearchQuery }) => {
         .animate-drift-2 { animation: drift-reverse 25s infinite ease-in-out; }
       `}</style>
 
-      {/* Фоновые слои */}
+      {/* Фоновые эффекты */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-[0.12]"></div>
         <div className="absolute -top-40 left-1/4 w-[600px] h-[600px] bg-gradient-to-tr from-blue-600/10 to-indigo-500/5 rounded-full blur-[140px] animate-drift-1"></div>
@@ -268,7 +274,6 @@ const AppContent = ({ searchQuery, setSearchQuery }) => {
         <Navbar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       </Suspense>
 
-      {/* Контентная область */}
       <main className="max-w-5xl mx-auto px-6 py-10 relative z-10 animate-in fade-in slide-in-from-bottom-6 duration-700 ease-out">
         <Suspense fallback={<PageLoader />}>
           <Routes>

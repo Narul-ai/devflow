@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   PlusCircle, Tag, User, Layers, Sparkles, Compass,
   Trophy, Star, Terminal, Hash, RefreshCw, Menu, X, Target
@@ -13,12 +14,14 @@ import PostCard from './PostCard';
 // 💎 УЛЬТРА-ПРЕМИУМ ВИДЖЕТ: ПРОФИЛЬ ПОЛЬЗОВАТЕЛЯ
 // ==========================================
 const UserProfileWidget = ({ user }) => {
+  const { t } = useTranslation();
+
   if (!user) return (
     <div className="df-widget relative overflow-hidden bg-[#070a13]/60 backdrop-blur-xl p-4 sm:p-5 rounded-2xl border border-white/[0.03] shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)] w-full box-border flex items-center justify-center min-h-[88px]">
       <div className="absolute inset-0 bg-gradient-to-r from-rose-500/5 to-transparent opacity-40 animate-pulse"></div>
       <p className="text-[10px] font-mono tracking-widest text-slate-500 uppercase m-0 flex items-center gap-2">
         <span className="w-1 h-1 rounded-full bg-rose-500 animate-ping"></span>
-        system // user_session_empty
+        {t('feed.userSessionEmpty')}
       </p>
     </div>
   );
@@ -59,7 +62,7 @@ const UserProfileWidget = ({ user }) => {
           <div className="flex items-center justify-between gap-2 w-full">
             <div className="flex items-center gap-1.5 min-w-0 truncate">
               <span className="text-[8px] font-mono font-black px-1.5 py-0.5 rounded bg-blue-500/10 border border-blue-500/20 text-blue-400 uppercase tracking-widest shrink-0 shadow-[0_2px_10px_rgba(59,130,246,0.1)]">
-                PROD
+                {t('feed.prodLabel')}
               </span>
               <span className="text-sm font-bold text-slate-200 truncate tracking-tight group-hover:text-white transition-colors duration-300">
                 @{user.username}
@@ -68,14 +71,17 @@ const UserProfileWidget = ({ user }) => {
           </div>
 
           <p className="text-[11px] text-slate-400 mt-1 mb-3 leading-relaxed font-normal break-words whitespace-normal line-clamp-2 pr-1 font-sans">
-            {user.bio || 'Разработчик экосистемы и ядра DevFlow'}
+            {user.bio || t('feed.profileBioFallback')}
           </p>
 
           <div className="flex items-center justify-between gap-2.5 sm:gap-3 border-t border-white/[0.03] pt-3 mt-1 w-full box-border">
             <div className="flex items-center gap-1.5 bg-slate-950/60 border border-white/[0.03] px-2.5 py-1 rounded-xl shadow-[inset_0_1px_2px_rgba(0,0,0,0.5)]">
               <Star size={10} className="text-amber-400 shrink-0 filter drop-shadow-[0_0_4px_rgba(251,191,36,0.3)]" fill="currentColor" />
               <span className="text-[10px] font-mono font-black bg-gradient-to-r from-amber-300 to-amber-500 bg-clip-text text-transparent tracking-tight">
-                {user.reputation || 0} <span className="text-slate-600 text-[8px] font-normal font-sans ml-0.5">XP</span>
+                {user.reputation || 0}{' '}
+                <span className="text-slate-600 text-[8px] font-normal font-sans ml-0.5">
+                  {t('feed.xpLabel')}
+                </span>
               </span>
             </div>
 
@@ -83,7 +89,7 @@ const UserProfileWidget = ({ user }) => {
               href="/profile"
               className="group/btn text-[9px] font-black tracking-wider uppercase text-slate-400 hover:text-white transition-all duration-300 flex items-center gap-1 bg-white/[0.01] hover:bg-blue-600 border border-white/[0.04] hover:border-blue-500 px-2.5 py-1.5 rounded-xl shadow-sm hover:shadow-[0_4px_20px_rgba(59,130,246,0.25)]"
             >
-              <span>Кабинет</span>
+              <span>{t('feed.cabinet')}</span>
               <Compass size={10} className="text-slate-500 group-hover/btn:text-white transition-all group-hover/btn:rotate-45 duration-300 shrink-0" />
             </a>
           </div>
@@ -97,6 +103,7 @@ const UserProfileWidget = ({ user }) => {
 // 💎 УЛЬТРА-ПРЕМИУМ ВИДЖЕТ: ЛИДЕРБОРД
 // ==========================================
 const LeaderboardWidget = ({ getAuthConfig }) => {
+  const { t } = useTranslation();
   const [leaders, setLeaders] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -108,13 +115,13 @@ const LeaderboardWidget = ({ getAuthConfig }) => {
           setLeaders(res.data.data.users.slice(0, 5));
         }
       } catch (error) {
-        console.error('Ошибка лидерборда:', error);
+        console.error(t('feed.errors.leaderboardConsole'), error);
       } finally {
         setLoading(false);
       }
     };
     fetchLeaderboard();
-  }, [getAuthConfig]);
+  }, [getAuthConfig, t]);
 
   const topStyles = [
     { text: 'text-amber-400', bg: 'bg-amber-400/5 border-amber-500/20 shadow-[0_0_15px_rgba(245,158,11,0.05)]' },
@@ -126,7 +133,9 @@ const LeaderboardWidget = ({ getAuthConfig }) => {
     <div className="df-widget bg-[#070a13]/40 backdrop-blur-xl p-4 sm:p-5 rounded-2xl border border-white/[0.04] shadow-[0_30px_60px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.05)] w-full box-border text-left transition-all duration-500 hover:border-white/[0.1]">
       <div className="flex items-center gap-2 mb-3 sm:mb-4 w-full border-b border-white/[0.03] pb-2.5">
         <Trophy size={12} className="text-blue-400 shrink-0 filter drop-shadow-[0_0_6px_rgba(59,130,246,0.3)]" />
-        <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest m-0 font-mono">Top Contributors</h3>
+        <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest m-0 font-mono">
+          {t('feed.topContributors')}
+        </h3>
       </div>
 
       <div className="space-y-1.5 w-full box-border min-w-0">
@@ -171,7 +180,9 @@ const LeaderboardWidget = ({ getAuthConfig }) => {
             );
           })
         ) : (
-          <div className="text-center py-3 text-[9px] font-mono text-slate-600 w-full tracking-wider">NO_LEADERS_DATA</div>
+          <div className="text-center py-3 text-[9px] font-mono text-slate-600 w-full tracking-wider">
+            {t('feed.noLeadersData')}
+          </div>
         )}
       </div>
     </div>
@@ -182,11 +193,15 @@ const LeaderboardWidget = ({ getAuthConfig }) => {
 // 💎 УЛЬТРА-ПРЕМИУМ ВИДЖЕТ: ПОПУЛЯРНЫЕ ТЕГИ
 // ==========================================
 const PopularTagsWidget = ({ tagCounts, availableTags, activeFilter, handleFilterChange }) => {
+  const { t } = useTranslation();
+
   return (
     <div className="df-widget bg-[#070a13]/40 backdrop-blur-xl p-4 sm:p-5 rounded-2xl border border-white/[0.04] shadow-[0_30px_60px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.05)] w-full box-border text-left transition-all duration-500 hover:border-white/[0.1]">
       <div className="flex items-center gap-2 mb-3 sm:mb-4 w-full border-b border-white/[0.03] pb-2.5">
         <Hash size={12} className="text-cyan-400 shrink-0 filter drop-shadow-[0_0_6px_rgba(34,211,238,0.3)]" />
-        <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest m-0 font-mono">Trending Tags</h3>
+        <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest m-0 font-mono">
+          {t('feed.trendingTags')}
+        </h3>
       </div>
 
       <div className="df-tags flex flex-wrap gap-1.5 w-full box-border">
@@ -205,7 +220,7 @@ const PopularTagsWidget = ({ tagCounts, availableTags, activeFilter, handleFilte
               }`}
             >
               <span className={isActive ? 'text-blue-400' : 'text-slate-600'}>#</span>
-              <span className="truncate max-w-[140px]">{tag}</span>
+              <span className="truncate max-w-[140px]">{t(`feed.tags.${tag}`)}</span>
               {count > 0 && (
                 <span
                   className={`text-[8px] px-1.5 py-0.5 rounded font-mono font-bold shrink-0 ${
@@ -227,18 +242,15 @@ const PopularTagsWidget = ({ tagCounts, availableTags, activeFilter, handleFilte
 // 💎 УЛЬТРА-ПРЕМИУМ ВИДЖЕТ: СОВЕТЫ ДЕВАМ
 // ==========================================
 const DevTipWidget = () => {
-  const tips = [
-    "MongoDB: Лимит размера BSON-документа — 16MB. Сложные вложенные массивы выноси в отдельные коллекции через Reference связи.",
-    "React: Оптимизируешь дочерние компоненты через React.memo? Всегда оборачивай их функции-пропсы в кастомный useCallback.",
-    "Node.js: Защищай заголовки API! Обязательно ставь мидлвар helmet и настраивай express-rate-limit против DDoS-клиентов.",
-    "Clean Code: Бизнес-логика одного React-компонента разрослась свыше 200 строк? Изолируй стейт в кастомный React-хук.",
-    "Performance: Пользуйся динамическим импортом React.lazy() и блоками Suspense, чтобы кардинально снизить вес главного бандла."
-  ];
+  const { t } = useTranslation();
+
+  const tips = t('feed.devTip.tips', { returnObjects: true });
 
   const [tip, setTip] = useState('');
   const rotateTip = useCallback(() => {
-    setTip(tips[Math.floor(Math.random() * tips.length)]);
-  }, []);
+    const arr = Array.isArray(tips) ? tips : [];
+    setTip(arr[Math.floor(Math.random() * Math.max(1, arr.length))] || '');
+  }, [tips]);
 
   useEffect(() => { rotateTip(); }, [rotateTip]);
 
@@ -247,12 +259,15 @@ const DevTipWidget = () => {
       <div className="flex items-center justify-between mb-3 w-full gap-2 border-b border-white/[0.03] pb-2.5">
         <div className="flex items-center gap-2 min-w-0">
           <Terminal size={12} className="text-emerald-400 shrink-0 filter drop-shadow-[0_0_5px_rgba(52,211,153,0.3)]" />
-          <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest truncate m-0 font-mono">Devflow Tip</h3>
+          <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest truncate m-0 font-mono">
+            {t('feed.devTip.title')}
+          </h3>
         </div>
         <button
           onClick={rotateTip}
           className="shrink-0 text-slate-500 hover:text-emerald-400 transition-colors p-1 bg-slate-950/40 hover:bg-slate-950 rounded-lg border border-white/5"
           type="button"
+          aria-label={t('feed.devTip.rotate')}
         >
           <RefreshCw size={10} className="group-hover:rotate-180 transition-transform duration-700" />
         </button>
@@ -306,6 +321,8 @@ const tagStyles = {
 // 🔥 ГЛАВНЫЙ КОМПОНЕНТ ЛЕНТЫ (FEED)
 // ==========================================
 const Feed = ({ searchQuery }) => {
+  const { t, i18n } = useTranslation();
+
   const { token, user, refreshUser } = useAuth();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -378,12 +395,12 @@ const Feed = ({ searchQuery }) => {
       const data = res.data.data?.posts || res.data.data || res.data;
       setPosts(Array.isArray(data) ? data : []);
     } catch (err) {
-      console.error("Ошибка при получении постов:", err);
-      toast.error("Не удалось обновить ленту публикаций");
+      console.error(t('feed.errors.fetchPostsConsole'), err);
+      toast.error(t('feed.errors.fetchPostsToast'));
     } finally {
       setLoading(false);
     }
-  }, [activeFilter, debouncedSearch, getAuthConfig]);
+  }, [activeFilter, debouncedSearch, getAuthConfig, t]);
 
   useEffect(() => {
     if (token) {
@@ -399,8 +416,8 @@ const Feed = ({ searchQuery }) => {
 
   const handlePostSubmit = async (e) => {
     e.preventDefault();
-    if (formData.title.trim().length < 10) return toast.error("Заголовок должен содержать минимум 10 символов");
-    if (formData.content.trim().length < 20) return toast.error("Опишите мысль подробнее (минимум 20 символов)");
+    if (formData.title.trim().length < 10) return toast.error(t('feed.validation.titleMin'));
+    if (formData.content.trim().length < 20) return toast.error(t('feed.validation.contentMin'));
 
     setSubmitting(true);
     try {
@@ -412,12 +429,12 @@ const Feed = ({ searchQuery }) => {
       };
       await axios.post('/posts', postPayload, getAuthConfig());
       setFormData({ title: '', content: '' });
-      toast.success("Мысль успешно добавлена в поток!", { icon: '🚀' });
+      toast.success(t('feed.toast.postPublished'), { icon: '🚀' });
       setActiveFilter('all');
       await fetchPosts('all', '');
     } catch (err) {
       console.error(err);
-      toast.error(err.response?.data?.message || "Ошибка при публикации");
+      toast.error(err.response?.data?.message || t('feed.errors.publishPost'));
     } finally {
       setSubmitting(false);
     }
@@ -443,13 +460,13 @@ const Feed = ({ searchQuery }) => {
       if (refreshUser) refreshUser();
     } catch (err) {
       console.error(err);
-      toast.error(err.response?.data?.message || "Не удалось обработать рейтинг");
+      toast.error(err.response?.data?.message || t('feed.errors.likeFail'));
       fetchPosts(activeFilter, debouncedSearch);
     }
-  }, [user, getAuthConfig, refreshUser, activeFilter, debouncedSearch, fetchPosts]);
+  }, [user, getAuthConfig, refreshUser, activeFilter, debouncedSearch, fetchPosts, t]);
 
   const handleBookmark = useCallback(async (postId) => {
-    if (!token) return toast.error("Авторизуйтесь, чтобы сохранять закладки", { id: "auth-error" });
+    if (!token) return toast.error(t('feed.errors.bookmarkAuth'), { id: "auth-error" });
     const toastId = `bookmark-${postId}`;
     try {
       const response = await axios.post(`/posts/${postId}/bookmark`, {}, getAuthConfig());
@@ -459,12 +476,12 @@ const Feed = ({ searchQuery }) => {
       setPosts(prevPosts =>
         prevPosts.map(post => post._id === postId ? { ...post, isBookmarked: isNowBookmarked } : post)
       );
-      toast.success(isNowBookmarked ? "Добавлено в закладки" : "Удалено из закладок", { id: toastId });
+      toast.success(isNowBookmarked ? t('feed.toast.bookmarkAdded') : t('feed.toast.bookmarkRemoved'), { id: toastId });
     } catch (err) {
-      console.error("Ошибка при обработке закладки:", err);
-      toast.error(err.response?.data?.message || "Не удалось обновить закладки", { id: toastId });
+      console.error(t('feed.errors.bookmarkConsole'), err);
+      toast.error(err.response?.data?.message || t('feed.errors.bookmarkFail'), { id: toastId });
     }
-  }, [token, getAuthConfig, refreshUser]);
+  }, [token, getAuthConfig, refreshUser, t]);
 
   const toggleComments = useCallback(async (postId) => {
     const isOpening = !expandedComments[postId];
@@ -481,19 +498,19 @@ const Feed = ({ searchQuery }) => {
             post._id === postId ? { ...post, comments: Array.isArray(fetchedComments) ? fetchedComments : [] } : post
           ));
         } catch (err) {
-          console.error("Ошибка при загрузке комментариев:", err);
-          toast.error("Не удалось загрузить обсуждение");
+          console.error(t('feed.errors.loadCommentsConsole'), err);
+          toast.error(t('feed.errors.loadCommentsToast'));
         } finally {
           setLoadingComments(prev => ({ ...prev, [postId]: false }));
         }
       }
     }
-  }, [expandedComments, posts, getAuthConfig]);
+  }, [expandedComments, posts, getAuthConfig, t]);
 
   const handleCommentSubmit = async (e, postId) => {
     e.preventDefault();
     const commentText = commentInputs[postId]?.trim();
-    if (!commentText || commentText.length < 2) return toast.error("Комментарий слишком короткий");
+    if (!commentText || commentText.length < 2) return toast.error(t('feed.validation.commentMin'));
 
     setSubmittingComment(prev => ({ ...prev, [postId]: true }));
     try {
@@ -509,10 +526,10 @@ const Feed = ({ searchQuery }) => {
         };
       }));
       setCommentInputs(prev => ({ ...prev, [postId]: '' }));
-      toast.success("Комментарий добавлен");
+      toast.success(t('feed.toast.commentAdded'));
     } catch (err) {
       console.error(err);
-      toast.error(err.response?.data?.message || "Не удалось отправить комментарий");
+      toast.error(err.response?.data?.message || t('feed.errors.sendCommentFail'));
     } finally {
       setSubmittingComment(prev => ({ ...prev, [postId]: false }));
     }
@@ -529,10 +546,10 @@ const Feed = ({ searchQuery }) => {
         };
       }));
       await axios.delete(`/comments/${commentId}`, getAuthConfig());
-      toast.success("Комментарий успешно удален");
+      toast.success(t('feed.toast.commentDeleted'));
     } catch (err) {
-      console.error("Ошибка при удалении комментария:", err);
-      toast.error("Не удалось удалить комментарий");
+      console.error(t('feed.errors.deleteCommentConsole'), err);
+      toast.error(t('feed.errors.deleteCommentFail'));
     }
   };
 
@@ -540,7 +557,7 @@ const Feed = ({ searchQuery }) => {
   // 🚀 ФРОНТ: ПОДПИСКА/ОТПИСКА (оптимистично)
   // ==========================================
   const handleFollow = useCallback(async (authorId) => {
-    if (!token) return toast.error("Авторизуйтесь, чтобы подписываться на авторов", { id: "auth-error" });
+    if (!token) return toast.error(t('feed.errors.followAuth'), { id: "auth-error" });
     if (!authorId) return;
 
     const wasFollowing = followingSet.has(authorId);
@@ -554,7 +571,7 @@ const Feed = ({ searchQuery }) => {
     });
 
     // ✅ тост сразу
-    toast.success(wasFollowing ? "Отписка (UI)" : "Подписка (UI)");
+    toast.success(wasFollowing ? t('feed.toast.followUiUnfollow') : t('feed.toast.followUiFollow'));
 
     // ⚠️ пока бэкенд не готов — не ломаем UI: пробуем запрос, если упадёт — просто оставим UI как есть
     // (потом, когда займёмся бэком, сделаем норм: rollback при ошибке + refreshUser)
@@ -562,15 +579,16 @@ const Feed = ({ searchQuery }) => {
       await axios.patch(`/users/follow/${authorId}`, {}, getAuthConfig());
       if (refreshUser) await refreshUser();
     } catch (err) {
-      console.warn("Follow API пока не готов / ошибка:", err?.response?.data || err?.message || err);
+      console.warn(t('feed.errors.followApiWarn'), err?.response?.data || err?.message || err);
       // rollback можно включить позже, когда ты скажешь что бэк готов
     }
-  }, [token, getAuthConfig, refreshUser, followingSet]);
+  }, [token, getAuthConfig, refreshUser, followingSet, t]);
 
   const calculateReadTime = (text) => {
     const wordsPerMinute = 185;
     const words = text ? text.trim().split(/\s+/).length : 0;
-    return `${Math.ceil(words / wordsPerMinute)} мин чтения`;
+    const minutes = Math.ceil(words / wordsPerMinute);
+    return t('feed.readTime', { count: minutes });
   };
 
   const tagCounts = {};
@@ -698,7 +716,7 @@ const Feed = ({ searchQuery }) => {
                     <div className="flex items-center gap-2 min-w-0">
                       <span className="w-10 h-1.5 rounded-full bg-white/10 hidden xs:block" />
                       <span className="text-[10px] font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400 uppercase tracking-widest flex items-center gap-2 font-mono">
-                        <Target size={12} className="text-blue-500" /> Виджеты
+                        <Target size={12} className="text-blue-500" /> {t('feed.widgetsTitle')}
                       </span>
                     </div>
 
@@ -706,6 +724,7 @@ const Feed = ({ searchQuery }) => {
                       onClick={() => setIsMobileWidgetsOpen(false)}
                       className="p-2 bg-slate-900/60 border border-white/5 hover:border-white/10 rounded-xl text-slate-300 hover:text-white flex items-center justify-center transition-all"
                       type="button"
+                      aria-label={t('feed.close')}
                     >
                       <X size={14} />
                     </button>
@@ -752,20 +771,20 @@ const Feed = ({ searchQuery }) => {
         <div className="lg:col-span-2 space-y-4 min-w-0 w-full box-border">
           <div className="flex lg:hidden justify-between items-center bg-[#0f172a]/20 border border-white/5 rounded-xl p-3.5 box-border w-full">
             <h1 className="text-[11px] font-black text-slate-400 tracking-wider flex items-center gap-2 font-mono m-0 uppercase">
-              <Terminal size={13} className="text-blue-500 shrink-0" /> Devflow / Лента
+              <Terminal size={13} className="text-blue-500 shrink-0" /> {t('feed.headerTitle')}
             </h1>
             <button
               onClick={() => setIsMobileWidgetsOpen(true)}
               className="flex items-center gap-1.5 px-3 py-2 bg-blue-500/10 border border-blue-500/20 hover:border-blue-500/40 rounded-xl text-[10px] font-black uppercase text-blue-400 active:scale-95 transition-all shadow-sm cursor-pointer"
               type="button"
             >
-              <Menu size={11} /> <span>Виджеты</span>
+              <Menu size={11} /> <span>{t('feed.widgetsButton')}</span>
             </button>
           </div>
 
           <form onSubmit={handlePostSubmit} className="bg-[#0f172a]/20 p-5 sm:p-6 rounded-2xl border border-white/5 shadow-2xl relative overflow-hidden w-full box-border text-left">
             <h2 className="text-xs font-black mb-4 flex items-center gap-2 text-slate-200 tracking-wider font-mono m-0 uppercase">
-              <PlusCircle size={14} className="text-blue-500 shrink-0" /> Поток мыслей
+              <PlusCircle size={14} className="text-blue-500 shrink-0" /> {t('feed.postFormTitle')}
             </h2>
 
             <div className="space-y-3 w-full box-border">
@@ -773,7 +792,7 @@ const Feed = ({ searchQuery }) => {
                 <input
                   type="text"
                   className="w-full bg-[#020617]/80 border border-white/5 rounded-xl p-3 pr-12 outline-none focus:border-blue-500/30 text-white text-xs font-medium placeholder-slate-500 box-border m-0 transition-all"
-                  placeholder="Заголовок идеи..."
+                  placeholder={t('feed.placeholders.title')}
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                   disabled={submitting}
@@ -788,21 +807,21 @@ const Feed = ({ searchQuery }) => {
               <div className="relative w-full box-border">
                 <textarea
                   className="w-full bg-[#020617]/80 border border-white/5 rounded-xl p-3 pr-12 outline-none focus:border-blue-500/30 text-white text-xs resize-none placeholder-slate-500 box-border h-24 m-0 transition-all leading-relaxed break-words whitespace-pre-wrap"
-                  placeholder="Разверни свою мысль подробно..."
+                  placeholder={t('feed.placeholders.content')}
                   value={formData.content}
                   onChange={(e) => setFormData({ ...formData, content: e.target.value })}
                   disabled={submitting}
                   required
                 />
                 <span className="absolute right-3 bottom-3 text-[8px] font-mono font-bold text-slate-600">
-                  {formData.content.length} симв.
+                  {formData.content.length} {t('feed.chars')}
                 </span>
               </div>
             </div>
 
             <div className="mt-4 w-full box-border">
               <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-2 flex items-center gap-1 font-mono">
-                <Tag size={10} className="text-slate-500 shrink-0" /> Категория:
+                <Tag size={10} className="text-slate-500 shrink-0" /> {t('feed.categoryLabel')}
               </span>
               <div className="flex flex-wrap items-center gap-1.5 w-full box-border">
                 {availableTags.map(tag => (
@@ -816,7 +835,7 @@ const Feed = ({ searchQuery }) => {
                         : 'bg-slate-900/30 text-slate-400 border-white/5 hover:border-white/10'
                     }`}
                   >
-                    #{tag}
+                    #{t(`feed.tags.${tag}`)}
                   </button>
                 ))}
               </div>
@@ -830,7 +849,9 @@ const Feed = ({ searchQuery }) => {
               {submitting ? (
                 <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin mx-auto"></div>
               ) : (
-                <span className="flex items-center justify-center gap-1">Опубликовать мысль <Sparkles size={11} /></span>
+                <span className="flex items-center justify-center gap-1">
+                  {t('feed.publishButton')} <Sparkles size={11} />
+                </span>
               )}
             </button>
           </form>
@@ -843,7 +864,7 @@ const Feed = ({ searchQuery }) => {
               }`}
               type="button"
             >
-              <Layers size={10} /> <span>Все потоки</span>
+              <Layers size={10} /> <span>{t('feed.filters.all')}</span>
             </button>
             {availableTags.map(tag => (
               <button
@@ -854,7 +875,7 @@ const Feed = ({ searchQuery }) => {
                 }`}
                 type="button"
               >
-                #{tag}
+                #{t(`feed.tags.${tag}`)}
               </button>
             ))}
           </div>
@@ -885,12 +906,15 @@ const Feed = ({ searchQuery }) => {
                   handleFollow={handleFollow}
                   // ✅ если PostCard хочет понять подписан ли:
                   followingSet={followingSet}
+                  // ✅ на всякий: если PostCard захочет перевод
+                  t={t}
+                  i18n={i18n}
                 />
               ))
             ) : (
               <div className="text-center py-12 border border-dashed border-white/5 rounded-2xl bg-slate-900/5 box-border w-full">
                 <Compass className="mx-auto text-slate-600 mb-2" size={18} />
-                <p className="text-xs font-bold text-slate-500 m-0 font-mono">FLOW_IS_EMPTY</p>
+                <p className="text-xs font-bold text-slate-500 m-0 font-mono">{t('feed.flowEmpty')}</p>
               </div>
             )}
           </div>

@@ -1,0 +1,138 @@
+{
+  "auth": {
+    "login": {
+      "title": "Sign In",
+      "subtitle": "Welcome back to DevFlow"
+    },
+    "register": {
+      "title": "Sign Up",
+      "subtitle": "Join the developer community"
+    },
+    "fields": {
+      "username": "Username",
+      "email": "Email Address",
+      "password": "Password",
+      "passwordConfirm": "Confirm Password"
+    },
+    "buttons": {
+      "login": "Sign In",
+      "register": "Create Account"
+    },
+    "switch": {
+      "toRegister": "Don't have an account? Sign Up",
+      "toLogin": "Already have an account? Sign In"
+    },
+    "validation": {
+      "username": "Username must be at least 3 characters long",
+      "passwordLength": "Password must be at least 8 characters long",
+      "passwordMatch": "Passwords do not match"
+    },
+    "toast": {
+      "welcome": "Welcome back, {{username}}!",
+      "success": "Account created successfully!",
+      "error": "Access denied. Check your credentials."
+    }
+  },
+  
+  "feed": {
+    "prodLabel": "PROD",
+    "xpLabel": "XP",
+    "cabinet": "Dashboard",
+    "profileBioFallback": "Developer of the DevFlow ecosystem and core",
+    "userSessionEmpty": "system // user_session_empty",
+    "widgetsTitle": "Widgets",
+    "widgetsButton": "Widgets",
+    "close": "Close",
+    "headerTitle": "Devflow / Feed",
+    "postFormTitle": "Stream of thoughts",
+    "placeholders": {
+      "title": "Idea title...",
+      "content": "Expand your thought in detail..."
+    },
+    "chars": "chars.",
+    "categoryLabel": "Category:",
+    "publishButton": "Publish thought",
+    "filters": {
+      "all": "All streams"
+    },
+    "tags": {
+      "development": "development",
+      "architecture": "architecture",
+      "javascript": "javascript",
+      "database": "database",
+      "design": "design",
+      "backend": "backend",
+      "frontend": "frontend",
+      "devops": "devops",
+      "security": "security",
+      "python": "python",
+      "networking": "networking",
+      "ai_ml": "ai_ml"
+    },
+    "topContributors": "Top Contributors",
+    "noLeadersData": "NO_LEADERS_DATA",
+    "trendingTags": "Trending Tags",
+    "devTip": {
+      "title": "Devflow Tip",
+      "rotate": "Rotate tip",
+      "tips": [
+        "MongoDB: BSON document size limit is 16MB. Move complex nested arrays to separate collections using references.",
+        "React: Using React.memo for child components? Wrap function props with useCallback.",
+        "Node.js: Protect your API headers! Use helmet and configure express-rate-limit against abusive clients.",
+        "Clean Code: If a React component grows beyond ~200 lines of business logic, move state into a custom hook.",
+        "Performance: Use React.lazy() and Suspense to reduce the initial bundle size."
+      ]
+    },
+    "flowEmpty": "FLOW_IS_EMPTY",
+    "readTime_one": "{{count}} min read",
+    "readTime_other": "{{count}} min read",
+    "validation": {
+      "titleMin": "Title must be at least 10 characters",
+      "contentMin": "Please describe your thought (at least 20 characters)",
+      "commentMin": "Comment is too short"
+    },
+    "toast": {
+      "postPublished": "Thought published to the stream!",
+      "bookmarkAdded": "Added to bookmarks",
+      "bookmarkRemoved": "Removed from bookmarks",
+      "commentAdded": "Comment added",
+      "commentDeleted": "Comment deleted",
+      "followUiFollow": "Followed (UI)",
+      "followUiUnfollow": "Unfollowed (UI)"
+    },
+    "errors": {
+      "fetchPostsConsole": "Error fetching posts:",
+      "fetchPostsToast": "Failed to refresh the feed",
+      "publishPost": "Publish error",
+      "likeFail": "Failed to update rating",
+      "bookmarkAuth": "Please sign in to use bookmarks",
+      "bookmarkConsole": "Bookmark error:",
+      "bookmarkFail": "Failed to update bookmarks",
+      "loadCommentsConsole": "Error loading comments:",
+      "loadCommentsToast": "Failed to load discussion",
+      "sendCommentFail": "Failed to send comment",
+      "deleteCommentConsole": "Error deleting comment:",
+      "deleteCommentFail": "Failed to delete comment",
+      "followAuth": "Please sign in to follow authors",
+      "followApiWarn": "Follow API not ready / error:",
+      "leaderboardConsole": "Leaderboard error:"
+    }
+  },
+"navbar": {
+    "placeholders": {
+      "search": "Search posts..."
+    },
+    "buttons": {
+      "login": "Sign In"
+    },
+    "tooltips": {
+      "feed": "Main Feed",
+      "reputation": "DevFlow Reputation",
+      "profile": "Go to Profile",
+      "logout": "Log Out"
+    },
+    "toast": {
+      "logoutSuccess": "You have successfully logged out"
+    }
+  }
+}
