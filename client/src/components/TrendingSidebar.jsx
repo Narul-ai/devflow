@@ -17,7 +17,7 @@ const TrendingSidebar = () => {
       } catch (err) {
         console.error('Ошибка при загрузке трендов:', err);
       } finally {
-        loading(false);
+        setLoading(false);
       }
     };
 
