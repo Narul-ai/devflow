@@ -15,7 +15,7 @@
       "passwordConfirm": "确认密码"
     },
     "buttons": {
-      "login": "授权登录",
+      "login": "登录",
       "register": "创建账户"
     },
     "switch": {

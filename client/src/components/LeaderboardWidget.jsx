@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Trophy, User, Star } from 'lucide-react';
-import axios from 'axios'; // или твой инстанс api (например, import api from '../../api')
+import axios from 'axios'; 
 
 const LeaderboardWidget = () => {
   const [leaders, setLeaders] = useState([]);
@@ -9,10 +9,8 @@ const LeaderboardWidget = () => {
   useEffect(() => {
     const fetchLeaderboard = async () => {
       try {
-        // Укажи свой точный URL до бэкенда. Например, '/api/v1/users/leaderboard' или через полный localhost
-       const res = await axios.get('/auth/leaderboard');
+        const res = await axios.get('/auth/leaderboard');
         
-        // Сверяемся с твоим форматом ответа: status === 'success'
         if (res.data?.status === 'success' && res.data?.data?.users) {
           // Берём первые 5 человек из топ-20, чтобы виджет был компактным
           setLeaders(res.data.data.users.slice(0, 5));
@@ -55,8 +53,6 @@ const LeaderboardWidget = () => {
           leaders.map((leader, index) => {
             const isTop3 = index < 3;
             const currentStyle = isTop3 ? placeStyles[index] : { text: 'text-slate-500', bg: 'bg-slate-900/40 border-white/5' };
-            
-            // 🌟 ФИКС: Извлекаем ссылку на аватарку (поддерживаем оба варианта названия поля из БД)
             const leaderAvatar = leader.avatarUrl || leader.avatar;
 
             return (
@@ -70,18 +66,23 @@ const LeaderboardWidget = () => {
                     {index + 1}
                   </div>
 
-                  {/* 🌟 ЖЕЛЕЗОБЕТОННЫЙ ФИКС АВАТАРОК: рендерим картинку, если она есть, иначе падаем в дефолтную букву */}
-{leaderAvatar ? (
-  <img 
-    src={leaderAvatar} 
-    alt={leader.username || "avatar"} 
-    className="w-7 h-7 rounded-full object-cover border border-white/10 shadow-md shrink-0"
-  />
-) : (
-  <div className="w-7 h-7 rounded-full bg-gradient-to-br from-indigo-600 to-blue-500 border border-indigo-400/30 flex items-center justify-center text-[11px] font-bold text-white uppercase shadow-md shadow-indigo-500/10 shrink-0 select-none">
-    {leader.username ? leader.username.charAt(0) : <User size={12}/>}
-  </div>
-)}
+                  {/* 🛡️ ЖЕЛЕЗОБЕТОННЫЙ ФИКС АВАТАРОК С ПОДСТРАХОВКОЙ ОТ БИТЫХ ССЫЛОК */}
+                  {leaderAvatar ? (
+                    <img 
+                      src={leaderAvatar} 
+                      alt={leader.username || "avatar"} 
+                      className="w-7 h-7 rounded-full object-cover border border-white/10 shadow-md shrink-0"
+                      onError={(e) => {
+                        e.target.onerror = null; // Предотвращаем бесконечный цикл, если сервис упадет
+                        // Подставляем красивый UI-аватар с первой буквой ника на индиго-синем фоне в тон сайта
+                        e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(leader.username || 'U')}&background=4f46e5&color=fff&bold=true`;
+                      }}
+                    />
+                  ) : (
+                    <div className="w-7 h-7 rounded-full bg-gradient-to-br from-indigo-600 to-blue-500 border border-indigo-400/30 flex items-center justify-center text-[11px] font-bold text-white uppercase shadow-md shadow-indigo-500/10 shrink-0 select-none">
+                      {leader.username ? leader.username.charAt(0) : <User size={12}/>}
+                    </div>
+                  )}
 
                   {/* Юзернейм */}
                   <div className="max-w-[110px] truncate">
