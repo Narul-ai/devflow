@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Flame, Eye, ThumbsUp } from 'lucide-react';
+import { useTranslation } from 'react-i18next'; // Подключаем хук
 
 const TrendingSidebar = () => {
+  const { t } = useTranslation(); // Инициализируем перевод
   const [trending, setTrending] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -15,7 +17,7 @@ const TrendingSidebar = () => {
       } catch (err) {
         console.error('Ошибка при загрузке трендов:', err);
       } finally {
-        setLoading(false);
+        loading(false);
       }
     };
 
@@ -39,14 +41,13 @@ const TrendingSidebar = () => {
   if (trending.length === 0) return null;
 
   return (
-    /* 💡 Убрали sticky отсюда, теперь это просто чистый блок виджета с плавной анимацией появления */
     <div className="bg-[#0f172a]/40 backdrop-blur-md border border-white/5 p-6 rounded-3xl shadow-2xl relative overflow-hidden group hover:border-orange-500/20 transition-all duration-500 animate-in fade-in slide-in-from-right-4 duration-700">
       {/* Фоновый неоновый отсвет */}
       <div className="absolute -right-10 -top-10 w-32 h-32 bg-orange-500/5 rounded-full blur-3xl pointer-events-none group-hover:bg-orange-500/10 transition-colors"></div>
       
       <h3 className="text-sm font-black text-slate-300 uppercase tracking-widest flex items-center gap-2 mb-5">
         <Flame size={18} className="text-orange-500 animate-pulse" />
-        В тренде блогов
+        {t('trendingSidebar.title')}
       </h3>
 
       <div className="space-y-4">
@@ -67,7 +68,7 @@ const TrendingSidebar = () => {
 
             {/* Мета-данные */}
             <div className="flex items-center gap-3 mt-1.5 text-[11px] font-medium text-slate-500">
-              <span className="text-blue-400">@{post.author?.username || 'dev'}</span>
+              <span className="text-blue-400">@{post.author?.username || t('trendingSidebar.authorFallback')}</span>
               <span className="flex items-center gap-1">
                 <Eye size={12} /> {post.views || 0}
               </span>

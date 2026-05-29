@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { User, Clock, Flame, MessageSquare, Eye, Share2, Bookmark, Trash2, Check, UserPlus, UserCheck } from 'lucide-react';
 import Avatar from '../components/Avatar';
+import { useTranslation } from 'react-i18next'; // Подключаем хук перевода
 
 const PostCard = ({ 
   post, 
@@ -19,8 +20,10 @@ const PostCard = ({
   handleDeleteComment,
   handleDeletePost, 
   calculateReadTime,
-  handleFollow // <-- Новый проп для функции подписки
+  handleFollow
 }) => {
+  const { t, i18n } = useTranslation(); // Инициализируем i18n
+
   const mainTag = post.tags?.[0] || post.category || 'general';
   const activeTagStyle = tagStyles?.[mainTag] || tagStyles?.general || 'bg-slate-800 text-slate-300';
   
@@ -28,7 +31,7 @@ const PostCard = ({
   const authorId = post.author?._id || post.author?.id;
   const isLikedByUser = post.isLiked || (currentUserId && post.upvotes?.includes(currentUserId));
   
-  // ПРОВЕРКА ПОДПИСКИ НА АВТОРА (Защищена от undefined и синхронизирована по типам данных)
+  // ПРОВЕРКА ПОДПИСКИ НА АВТОРА
   const isFollowingAuthor = !!user?.following?.some(fId => {
     if (!fId) return false;
     const followingId = typeof fId === 'object' ? (fId._id || fId.id)?.toString() : fId.toString();
@@ -86,7 +89,7 @@ const PostCard = ({
     setIsCopied(true);
     
     if (typeof toast !== 'undefined') {
-      toast.success('Ссылка на поток скопирована!', { id: 'share-toast' });
+      toast.success(t('postCard.toast.shareSuccess'), { id: 'share-toast' });
     }
     
     setTimeout(() => setIsCopied(false), 2000);
@@ -105,19 +108,20 @@ const PostCard = ({
       {/* Шапка карточки */}
       <div className="flex items-center justify-between mb-4 relative z-10 gap-2 min-w-0 w-full">
         <div className="flex items-center gap-3 min-w-0 flex-1">
-          {/* Универсальный фоллбек для аватара автора */}
           <Avatar username={post.author?.username} avatarUrl={authorAvatar} size="md" />
           <div className="min-w-0 flex-1 flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
             <div className="min-w-0">
               <h4 className="text-sm font-bold text-slate-200 tracking-wide hover:text-blue-400 cursor-pointer transition-colors truncate max-w-[120px] sm:max-w-[160px]">
-                {post.author?.username || 'Инкогнито разработчик'}
+                {post.author?.username || t('postCard.authorFallback')}
               </h4>
               <p className="text-[10px] text-slate-500 font-bold font-mono tracking-wide mt-0.5 truncate">
-                {post.createdAt ? new Date(post.createdAt).toLocaleDateString('ru-RU', { day: 'numeric', month: 'short', year: 'numeric' }) : 'Только что'}
+                {post.createdAt 
+                  ? new Date(post.createdAt).toLocaleDateString(i18n.language, { day: 'numeric', month: 'short', year: 'numeric' }) 
+                  : t('postCard.dateJustNow')}
               </p>
             </div>
 
-            {/* КНОПКА ПОДПИСКИ (Отображается, если залогинены и смотрим чужой пост) */}
+            {/* КНОПКА ПОДПИСКИ */}
             {currentUserId && authorId && currentUserId.toString() !== authorId.toString() && (
               <button
                 onClick={onFollowClick}
@@ -131,12 +135,12 @@ const PostCard = ({
                 {isFollowingAuthor ? (
                   <>
                     <UserCheck size={11} className="shrink-0" />
-                    <span className="hidden xs:inline">Читаю</span>
+                    <span className="hidden xs:inline">{t('postCard.buttons.following')}</span>
                   </>
                 ) : (
                   <>
                     <UserPlus size={11} className="shrink-0" />
-                    <span>Подписаться</span>
+                    <span>{t('postCard.buttons.follow')}</span>
                   </>
                 )}
               </button>
@@ -146,7 +150,9 @@ const PostCard = ({
 
         <div className="flex items-center gap-1 sm:gap-1.5 text-[9px] sm:text-[10px] font-bold font-mono text-slate-400 bg-slate-900/80 px-2 sm:px-3 py-1 sm:py-1.5 rounded-xl border border-white/5 shadow-inner shrink-0">
           <Clock size={11} className="text-slate-500 animate-pulse shrink-0"/>
-          <span className="whitespace-nowrap">{calculateReadTime ? calculateReadTime(post.content) : '1 мин'}</span>
+          <span className="whitespace-nowrap">
+            {calculateReadTime ? calculateReadTime(post.content) : t('postCard.readTimeFallback')}
+          </span>
         </div>
       </div>
 
@@ -203,7 +209,7 @@ const PostCard = ({
             }`}
           >
             <MessageSquare size={13} className={`shrink-0 ${isCommentsOpen ? 'animate-pulse' : ''}`} />
-            <span className="hidden sm:inline">Обсудить</span>
+            <span className="hidden sm:inline">{t('postCard.buttons.discuss')}</span>
             <span className="text-[9px] sm:text-[10px] bg-slate-950/60 font-mono px-1.5 py-0.5 rounded-md border border-white/5 text-slate-400 group-hover:text-blue-300">
               {post.commentsCount !== undefined ? post.commentsCount : (post.comments?.length || 0)}
             </span>
@@ -225,7 +231,7 @@ const PostCard = ({
                 ? 'bg-cyan-500/10 border-cyan-500/40 text-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.2)]' 
                 : 'bg-slate-900/20 border-transparent hover:border-white/5 hover:text-slate-400'
             }`}
-            title={isBookmarkedByUser ? "Убрать из закладок" : "В закладки"}
+            title={isBookmarkedByUser ? t('postCard.tooltips.removeBookmark') : t('postCard.tooltips.addBookmark')}
           >
             {isAnimating && (
               <span className="absolute inset-0 rounded-xl bg-cyan-500/20 animate-ping pointer-events-none"></span>
@@ -245,7 +251,7 @@ const PostCard = ({
             className={`p-2 rounded-xl bg-slate-900/20 border border-transparent hover:border-white/5 transition-all duration-200 active:scale-95 shrink-0 ${
               isCopied ? 'text-green-400 border-green-500/20 bg-green-500/5' : 'hover:text-slate-300'
             }`}
-            title="Поделиться"
+            title={t('postCard.tooltips.share')}
           >
             {isCopied ? <Check size={13} className="animate-in zoom-in duration-200 shrink-0" /> : <Share2 size={13} className="shrink-0" />}
           </button>
@@ -254,12 +260,12 @@ const PostCard = ({
           {handleDeletePost && currentUserId && (post.author?._id === currentUserId || post.author?.id === currentUserId) && (
             <button 
               onClick={() => {
-                if (window.confirm('Вы уверены, что хотите удалить этот поток мыслей?')) {
+                if (window.confirm(t('postCard.confirmDeletePost'))) {
                   handleDeletePost(post._id);
                 }
               }}
               className="p-2 rounded-xl bg-slate-900/20 border border-transparent hover:border-rose-500/20 hover:text-rose-400 transition-all duration-200 active:scale-95 shrink-0"
-              title="Удалить поток"
+              title={t('postCard.tooltips.deletePost')}
             >
               <Trash2 size={13} className="shrink-0" />
             </button>
@@ -273,7 +279,7 @@ const PostCard = ({
           <form onSubmit={(e) => handleCommentSubmit(e, post._id)} className="flex gap-2 items-center w-full min-w-0">
             <input 
               type="text"
-              placeholder="Напишите комментарий..."
+              placeholder={t('postCard.placeholders.commentInput')}
               value={commentInputs[post._id] || ''}
               onChange={(e) => setCommentInputs(prev => ({ ...prev, [post._id]: e.target.value }))}
               disabled={submittingComment[post._id]}
@@ -284,7 +290,7 @@ const PostCard = ({
               disabled={submittingComment[post._id] || !(commentInputs[post._id]?.trim())}
               className="bg-blue-600 hover:bg-blue-500 text-white px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs font-bold tracking-wide transition-all active:scale-95 disabled:opacity-20 disabled:pointer-events-none whitespace-nowrap shrink-0"
             >
-              {submittingComment[post._id] ? '...' : 'Ответить'}
+              {submittingComment[post._id] ? t('postCard.buttons.loading') : t('postCard.buttons.reply')}
             </button>
           </form>
 
@@ -299,7 +305,7 @@ const PostCard = ({
             {isCommentsLoading ? (
               <div className="flex flex-col items-center justify-center py-6 space-y-2">
                 <div className="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-                <span className="text-[10px] text-slate-500 font-mono tracking-wider animate-pulse">Синхронизация...</span>
+                <span className="text-[10px] text-slate-500 font-mono tracking-wider animate-pulse">{t('postCard.commentsLoading')}</span>
               </div>
             ) : post.comments && post.comments.length > 0 ? (
               post.comments.map((comment, cIdx) => {
@@ -318,38 +324,38 @@ const PostCard = ({
                     <div className="flex items-center justify-between gap-2 min-w-0 w-full">
                       <div className="flex items-center gap-2 min-w-0">
                         {commentAvatar ? (
-  <img 
-    src={commentAvatar} 
-    alt={comment.author?.username || "avatar"} 
-    className="w-5 h-5 rounded-full object-cover border border-white/10 shadow-sm shrink-0"
-  />
-) : (
-  <div className="w-5 h-5 rounded-full bg-gradient-to-br from-blue-600/80 to-cyan-500/80 border border-blue-500/20 flex items-center justify-center text-[10px] font-bold text-white uppercase tracking-wider shrink-0 select-none leading-none">
-    {comment.author?.username ? comment.author.username.charAt(0) : <User size={10}/>}
-  </div>
-)}
+                          <img 
+                            src={commentAvatar} 
+                            alt={comment.author?.username || "avatar"} 
+                            className="w-5 h-5 rounded-full object-cover border border-white/10 shadow-sm shrink-0"
+                          />
+                        ) : (
+                          <div className="w-5 h-5 rounded-full bg-gradient-to-br from-blue-600/80 to-cyan-500/80 border border-blue-500/20 flex items-center justify-center text-[10px] font-bold text-white uppercase tracking-wider shrink-0 select-none leading-none">
+                            {comment.author?.username ? comment.author.username.charAt(0) : <User size={10}/>}
+                          </div>
+                        )}
                         
                         <span className="text-[11px] font-bold text-slate-300 hover:text-blue-400 cursor-pointer transition-colors truncate max-w-[90px] sm:max-w-[150px]">
-                          {comment.author?.username || 'DevFlow Разработчик'}
+                          {comment.author?.username || t('postCard.commentAuthorFallback')}
                         </span>
 
                         {isPostAuthorOfComment && (
                           <span className="text-[7px] sm:text-[8px] font-black tracking-wider bg-blue-500/10 text-blue-400 border border-blue-500/20 px-1 py-0.5 rounded-md uppercase font-mono shrink-0">
-                            Автор
+                            {t('postCard.authorBadge')}
                           </span>
                         )}
                       </div>
                       
                       <div className="flex items-center gap-1.5 shrink-0">
                         <span className="text-[9px] font-mono font-bold text-slate-500 tracking-wide">
-                          {comment.createdAt ? new Date(comment.createdAt).toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' }) : 'Только что'}
+                          {comment.createdAt ? new Date(comment.createdAt).toLocaleDateString(i18n.language, { day: 'numeric', month: 'short' }) : t('postCard.dateJustNow')}
                         </span>
                         
                         {(isCommentAuthor || isAdmin) && (
                           <button 
                             onClick={() => handleDeleteComment(post._id, comment._id)}
                             className="text-slate-600 hover:text-rose-400 sm:opacity-0 group-hover/comment:opacity-100 p-1 rounded-md hover:bg-rose-500/5 transition-all duration-200"
-                            title="Удалить комментарий"
+                            title={t('postCard.tooltips.deleteComment')}
                           >
                             <Trash2 size={11} />
                           </button>
@@ -358,14 +364,14 @@ const PostCard = ({
                     </div>
                     
                     <p className="text-slate-400 text-xs pl-7 font-medium leading-relaxed break-words selection:bg-blue-500/20">
-                      {comment.content || comment.text || "Текст комментария не найден"}
+                      {comment.content || comment.text || t('postCard.commentTextNotFound')}
                     </p>
                   </div>
                 );
               })
             ) : (
               <div className="text-center py-5 border border-dashed border-white/5 rounded-2xl bg-slate-950/10 text-[11px] font-mono text-slate-600 animate-in fade-in duration-300">
-                Here it's quiet... Be the first to start the discussion!
+                {t('postCard.noComments')}
               </div>
             )}
           </div>

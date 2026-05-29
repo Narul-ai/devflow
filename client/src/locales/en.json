@@ -134,5 +134,131 @@
     "toast": {
       "logoutSuccess": "You have successfully logged out"
     }
-  }
+  },
+  
+  "postCard": {
+    "authorFallback": "Incognito Developer",
+    "commentAuthorFallback": "DevFlow Developer",
+    "dateJustNow": "Just now",
+    "readTimeFallback": "1 min",
+    "authorBadge": "Author",
+    "confirmDeletePost": "Are you sure you want to delete this stream of thoughts?",
+    "noComments": "Here it's quiet... Be the first to start the discussion!",
+    "commentsLoading": "Syncing...",
+    "commentTextNotFound": "Comment text not found",
+    "buttons": {
+      "following": "Following",
+      "follow": "Follow",
+      "discuss": "Discuss",
+      "reply": "Reply",
+      "loading": "..."
+    },
+    "tooltips": {
+      "addBookmark": "Add to bookmarks",
+      "removeBookmark": "Remove bookmark",
+      "share": "Share",
+      "deletePost": "Delete stream",
+      "deleteComment": "Delete comment"
+    },
+    "placeholders": {
+      "commentInput": "Write a comment..."
+    },
+    "toast": {
+      "shareSuccess": "Stream link copied to clipboard!"
+    }
+  },
+
+  "profile": {
+    "edit": "Edit",
+    "delete": "Delete",
+    "close": "Close",
+    "cancel": "Cancel",
+    "save": "Save",
+    "shareProfileTitle": "Share profile",
+    "portfolio": "Portfolio",
+    "memberSincePrefix": "Since ",
+    "memberSinceFallback": "2026",
+    "loadingSync": "Syncing DevFlow core v1.0.4...",
+    "bioFallback": "Full-stack developer on DevFlow. No description yet, but the code is already shipping.",
+    "currentXpLabel": "Current XP:",
+    "nextRankLabel": "Next rank:",
+    "activityPulseTitle": "Activity pulse",
+    "activityPulseStatus": "Stable",
+    "activityCellTitle": "Activity recorded",
+    "activityLegend": "Less • • • • More",
+    "techStackTitle": "Battle-tested tech stack",
+    "recent": "Recently",
+    "loadingPostTitle": "Loading post...",
+    "authorFallback": "author",
+    "removeFromBookmarksTitle": "Remove from bookmarks",
+    "tabs": {
+      "myPosts": "My posts",
+      "bookmarks": "Bookmarks"
+    },
+    "emptyPosts": {
+      "title": "It’s quiet here",
+      "subtitle": "You haven’t created any posts yet."
+    },
+    "emptyBookmarks": {
+      "title": "No bookmarks",
+      "subtitle": "Save useful posts from other developers so they’re always close at hand."
+    },
+    "editModal": {
+      "title": "Account modification",
+      "avatarLabel": "Profile photo URL",
+      "avatarPlaceholder": "https://...",
+      "bioLabel": "About you (Bio)",
+      "bioPlaceholder": "Describe your experience...",
+      "skillsLabel": "Stack (comma-separated)",
+      "skillsPlaceholder": "Node.js, Express, MongoDB, React",
+      "locationLabel": "Location",
+      "locationPlaceholder": "Kazakhstan, Almaty",
+      "websiteLabel": "Personal website",
+      "websitePlaceholder": "portfolio.dev",
+      "githubLabel": "GitHub username",
+      "githubPlaceholder": "Your handle"
+    },
+    "editPostModal": {
+      "title": "Edit post",
+      "titleLabel": "Title",
+      "categoryLabel": "Category",
+      "contentLabel": "Content"
+    },
+    "stats": {
+      "posts": "Posts",
+      "reputation": "Reputation",
+      "followers": "Followers",
+      "following": "Following"
+    },
+    "confirm": {
+      "deletePost": "Are you sure you want to delete this post?"
+    },
+    "toast": {
+      "profileLinkCopied": "Profile link copied! 🚀",
+      "postDeleted": "Post deleted successfully",
+      "postUpdated": "Post updated successfully!",
+      "bookmarksUpdated": "Bookmarks updated",
+      "profileUpdated": "Profile updated successfully!"
+    },
+    "errors": {
+      "fetchProfileConsole": "Profile load error:",
+      "fetchProfileToast": "Failed to refresh profile data",
+      "deletePostToast": "Failed to delete post",
+      "savePostChangesToast": "Failed to save post changes",
+      "invalidPostId": "Error: Invalid post ID",
+      "toggleBookmarkToast": "Failed to update bookmark status",
+      "updateProfileToast": "Failed to update profile"
+    },
+    "ranks": {
+      "eliteArchitect": { "title": "Elite Architect", "nextRank": "Max level" },
+      "seniorDeveloper": { "title": "Senior Developer", "nextRank": "Elite Architect" },
+      "middleFullstack": { "title": "Middle Fullstack", "nextRank": "Senior Developer" },
+      "juniorPadawan": { "title": "Junior Padawan", "nextRank": "Middle Fullstack" }
+    }
+  },
+  "trendingSidebar": {
+  "title": "Trending Blogs",
+  "authorFallback": "dev"
+}
+
 }

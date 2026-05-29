@@ -135,6 +135,132 @@
     "toast": {
       "logoutSuccess": "Вы успешно вышли из системы"
     }
-  }
+  },
+
+  "postCard": {
+    "authorFallback": "Инкогнито разработчик",
+    "commentAuthorFallback": "DevFlow Разработчик",
+    "dateJustNow": "Только что",
+    "readTimeFallback": "1 мин",
+    "authorBadge": "Автор",
+    "confirmDeletePost": "Вы уверены, что хотите удалить этот поток мыслей?",
+    "noComments": "Здесь пока тихо... Будьте первым, кто начнет обсуждение!",
+    "commentsLoading": "Синхронизация...",
+    "commentTextNotFound": "Текст комментария не найден",
+    "buttons": {
+      "following": "Читаю",
+      "follow": "Подписаться",
+      "discuss": "Обсудить",
+      "reply": "Ответить",
+      "loading": "..."
+    },
+    "tooltips": {
+      "addBookmark": "В закладки",
+      "removeBookmark": "Убрать из закладок",
+      "share": "Поделиться",
+      "deletePost": "Удалить поток",
+      "deleteComment": "Удалить комментарий"
+    },
+    "placeholders": {
+      "commentInput": "Напишите комментарий..."
+    },
+    "toast": {
+      "shareSuccess": "Ссылка на поток скопирована!"
+    }
+  },
+
+  "profile": {
+    "edit": "Редактировать",
+    "delete": "Удалить",
+    "close": "Закрыть",
+    "cancel": "Отмена",
+    "save": "Сохранить",
+    "shareProfileTitle": "Поделиться профилем",
+    "portfolio": "Портфолио",
+    "memberSincePrefix": "С ",
+    "memberSinceFallback": "2026 г.",
+    "loadingSync": "Синхронизация ядра DevFlow v1.0.4...",
+    "bioFallback": "Фуллстек-разработчик на платформе DevFlow. Здесь пока нет описания, но код уже пишется.",
+    "currentXpLabel": "Текущий опыт:",
+    "nextRankLabel": "Следующий ранг:",
+    "activityPulseTitle": "Пульс активности",
+    "activityPulseStatus": "Стабилен",
+    "activityCellTitle": "Активность зафиксирована",
+    "activityLegend": "Меньше • • • • Больше",
+    "techStackTitle": "Боевой стек технологий",
+    "recent": "Недавно",
+    "loadingPostTitle": "Загрузка публикации...",
+    "authorFallback": "автор",
+    "removeFromBookmarksTitle": "Удалить из закладок",
+    "tabs": {
+      "myPosts": "Мои посты",
+      "bookmarks": "Закладки"
+    },
+    "emptyPosts": {
+      "title": "Тут пока пустовато",
+      "subtitle": "Вы еще не создали ни одной публикации."
+    },
+    "emptyBookmarks": {
+      "title": "Закладки отсутствуют",
+      "subtitle": "Сохраняйте полезные посты других разработчиков, чтобы они всегда оставались под рукой."
+    },
+    "editModal": {
+      "title": "Модификация аккаунта",
+      "avatarLabel": "Ссылка на фото профиля (URL)",
+      "avatarPlaceholder": "https://...",
+      "bioLabel": "О себе (Bio)",
+      "bioPlaceholder": "Опиши свой опыт...",
+      "skillsLabel": "Стек (через запятую)",
+      "skillsPlaceholder": "Node.js, Express, MongoDB, React",
+      "locationLabel": "Локация",
+      "locationPlaceholder": "Казахстан, Алматы",
+      "websiteLabel": "Личный веб-сайт",
+      "websitePlaceholder": "portfolio.dev",
+      "githubLabel": "Юзернейм на GitHub",
+      "githubPlaceholder": "Ваш ник"
+    },
+    "editPostModal": {
+      "title": "Редактирование поста",
+      "titleLabel": "Заголовок",
+      "categoryLabel": "Категория",
+      "contentLabel": "Содержимое"
+    },
+    "stats": {
+      "posts": "Публикации",
+      "reputation": "Репутация",
+      "followers": "Подписчики",
+      "following": "Подписки"
+    },
+    "confirm": {
+      "deletePost": "Вы уверены, что хотите удалить эту публикацию?"
+    },
+    "toast": {
+      "profileLinkCopied": "Ссылка на профиль скопирована! 🚀",
+      "postDeleted": "Публикация успешно удалена",
+      "postUpdated": "Пост успешно изменен!",
+      "bookmarksUpdated": "Закладки обновлены",
+      "profileUpdated": "Профиль успешно обновлен!"
+    },
+    "errors": {
+      "fetchProfileConsole": "Ошибка загрузки профиля:",
+      "fetchProfileToast": "Не удалось обновить данные профиля",
+      "deletePostToast": "Ошибка при удалении публикации",
+      "savePostChangesToast": "Не удалось сохранить изменения поста",
+      "invalidPostId": "Ошибка: Неверный ID поста",
+      "toggleBookmarkToast": "Не удалось изменить статус закладки",
+      "updateProfileToast": "Ошибка при обновлении данных"
+    },
+    "ranks": {
+      "eliteArchitect": { "title": "Elite Architect", "nextRank": "Максимальный уровень" },
+      "seniorDeveloper": { "title": "Senior Developer", "nextRank": "Elite Architect" },
+      "middleFullstack": { "title": "Middle Fullstack", "nextRank": "Senior Developer" },
+      "juniorPadawan": { "title": "Junior Padawan", "nextRank": "Middle Fullstack" }
+    }
+  },
+  "trendingSidebar": {
+  "title": "В тренде блогов",
+  "authorFallback": "dev"
+}
+
 }
 

@@ -133,5 +133,131 @@
     "toast": {
       "logoutSuccess": "您已成功退出登录"
     }
-  }
+  },
+  
+  "postCard": {
+    "authorFallback": "匿名 think-cell 开发者",
+    "commentAuthorFallback": "DevFlow 开发者",
+    "dateJustNow": "刚刚",
+    "readTimeFallback": "1 分钟",
+    "authorBadge": "作者",
+    "confirmDeletePost": "您确定要删除这个思维流吗？",
+    "noComments": "这里很安静... 成为第一个开始讨论的人吧！",
+    "commentsLoading": "同步中...",
+    "commentTextNotFound": "未找到评论内容",
+    "buttons": {
+      "following": "已关注",
+      "follow": "关注",
+      "discuss": "讨论",
+      "reply": "回复",
+      "loading": "..."
+    },
+    "tooltips": {
+      "addBookmark": "添加书签",
+      "removeBookmark": "移除书签",
+      "share": "分享",
+      "deletePost": "删除帖子",
+      "deleteComment": "删除评论"
+    },
+    "placeholders": {
+      "commentInput": "写下你的评论..."
+    },
+    "toast": {
+      "shareSuccess": "帖子链接已成功复制！"
+    }
+  },
+
+  "profile": {
+    "edit": "编辑",
+    "delete": "删除",
+    "close": "关闭",
+    "cancel": "取消",
+    "save": "保存",
+    "shareProfileTitle": "分享个人资料",
+    "portfolio": "作品集",
+    "memberSincePrefix": "自 ",
+    "memberSinceFallback": "2026 年",
+    "loadingSync": "正在同步 DevFlow 核心 v1.0.4…",
+    "bioFallback": "DevFlow 平台全栈开发者。这里暂时没有简介，但代码已经在路上。",
+    "currentXpLabel": "当前经验：",
+    "nextRankLabel": "下一段位：",
+    "activityPulseTitle": "活跃脉搏",
+    "activityPulseStatus": "稳定",
+    "activityCellTitle": "已记录活跃",
+    "activityLegend": "更少 • • • • 更多",
+    "techStackTitle": "实战技术栈",
+    "recent": "最近",
+    "loadingPostTitle": "正在加载帖子…",
+    "authorFallback": "作者",
+    "removeFromBookmarksTitle": "从书签移除",
+    "tabs": {
+      "myPosts": "我的帖子",
+      "bookmarks": "书签"
+    },
+    "emptyPosts": {
+      "title": "这里暂时有点空",
+      "subtitle": "你还没有创建任何帖子。"
+    },
+    "emptyBookmarks": {
+      "title": "暂无书签",
+      "subtitle": "收藏其他开发者的优质帖子，方便随时查看。"
+    },
+    "editModal": {
+      "title": "账号修改",
+      "avatarLabel": "头像链接（URL）",
+      "avatarPlaceholder": "https://...",
+      "bioLabel": "关于你（Bio）",
+      "bioPlaceholder": "描述一下你的经验…",
+      "skillsLabel": "技术栈（用逗号分隔）",
+      "skillsPlaceholder": "Node.js, Express, MongoDB, React",
+      "locationLabel": "位置",
+      "locationPlaceholder": "哈萨克斯坦，阿拉木图",
+      "websiteLabel": "个人网站",
+      "websitePlaceholder": "portfolio.dev",
+      "githubLabel": "GitHub 用户名",
+      "githubPlaceholder": "你的昵称"
+    },
+    "editPostModal": {
+      "title": "编辑帖子",
+      "titleLabel": "标题",
+      "categoryLabel": "分类",
+      "contentLabel": "内容"
+    },
+    "stats": {
+      "posts": "帖子",
+      "reputation": "声望",
+      "followers": "粉丝",
+      "following": "关注"
+    },
+    "confirm": {
+      "deletePost": "确定要删除这条发布内容吗？"
+    },
+    "toast": {
+      "profileLinkCopied": "个人资料链接已复制！🚀",
+      "postDeleted": "发布内容已删除",
+      "postUpdated": "帖子已更新！",
+      "bookmarksUpdated": "书签已更新",
+      "profileUpdated": "个人资料已更新！"
+    },
+    "errors": {
+      "fetchProfileConsole": "加载个人资料出错：",
+      "fetchProfileToast": "无法刷新个人资料数据",
+      "deletePostToast": "删除发布内容失败",
+      "savePostChangesToast": "保存帖子修改失败",
+      "invalidPostId": "错误：帖子 ID 无效",
+      "toggleBookmarkToast": "更新书签状态失败",
+      "updateProfileToast": "更新个人资料失败"
+    },
+    "ranks": {
+      "eliteArchitect": { "title": "Elite Architect", "nextRank": "最高等级" },
+      "seniorDeveloper": { "title": "Senior Developer", "nextRank": "Elite Architect" },
+      "middleFullstack": { "title": "Middle Fullstack", "nextRank": "Senior Developer" },
+      "juniorPadawan": { "title": "Junior Padawan", "nextRank": "Middle Fullstack" }
+    }
+  },
+  "trendingSidebar": {
+  "title": "热门博客",
+  "authorFallback": "dev"
+}
+
 }
