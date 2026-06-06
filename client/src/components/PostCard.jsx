@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios'; // 🔥 Добавляем для отправки просмотров
 import { User, Clock, Flame, MessageSquare, Eye, Share2, Bookmark, Trash2, Check, UserPlus, UserCheck } from 'lucide-react';
 import Avatar from '../components/Avatar';
 import { useTranslation } from 'react-i18next'; // Подключаем хук перевода
@@ -202,7 +203,23 @@ const PostCard = ({
 
           {/* Обсуждение */}
           <button 
-            onClick={() => toggleComments(post._id)}
+            onClick={async () => {
+              // 1. Переключаем видимость блока комментариев на фронтенде
+              toggleComments(post._id);
+              
+              // 2. Если блок был закрыт и сейчас открывается — накручиваем просмотр
+              if (!isCommentsOpen) {
+                try {
+                  // Шлём запрос на бэкенд, чтобы сработал инкремент { $inc: { views: 1 } }
+                  await axios.get(`/posts/${post._id}`);
+                  
+                  // Сразу реактивно обновляем счётчик на клиенте для мгновенного UX
+                  post.views = (post.views || 0) + 1;
+                } catch (err) {
+                  console.error("Не удалось обновить счётчик просмотров:", err);
+                }
+              }
+            }}
             className={`flex items-center gap-1 sm:gap-2 text-[11px] sm:text-xs font-bold px-2.5 sm:px-4 py-2 sm:py-2.5 rounded-xl border transition-all duration-300 active:scale-95 shrink-0 ${
               isCommentsOpen 
                 ? 'bg-blue-500/10 border-blue-500/40 text-blue-400 shadow-[0_0_20px_rgba(59,130,246,0.15)]' 
