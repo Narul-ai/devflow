@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Trophy, Star } from 'lucide-react';
 import axios from 'axios'; 
-// 🔥 Импортируем твой кастомный хелпер аватарок
-import { getAvatarFallback } from '../utils/avatarHelper';
+// 🔥 Вместо хелпера импортируем наш универсальный и умный компонент Аватара
+import Avatar from './Avatar';
 
 const LeaderboardWidget = () => {
   const [leaders, setLeaders] = useState([]);
@@ -20,7 +20,8 @@ const LeaderboardWidget = () => {
       } catch (error) {
         console.error('Ошибка загрузки лидерборда:', error);
       } finally {
-        loading(false);
+        // Исправлен баг: вызываем сеттер стейта, а не саму переменную loading
+        setLoading(false);
       }
     };
 
@@ -69,10 +70,13 @@ const LeaderboardWidget = () => {
                     {index + 1}
                   </div>
 
-                  {/* ⚡ ВЫЗОВ ТВОЕГО ГЛОБАЛЬНОГО ХЕЛПЕРА АВАТАРОК */}
-                  <div className="w-7 h-7 rounded-full overflow-hidden border border-white/10 shadow-md shrink-0 relative">
-                    {getAvatarFallback(displayName, leaderAvatar)}
-                  </div>
+                  {/* ⚡ ВЫЗОВ УМНОГО КОМПОНЕНТА АВАТАРОК С ПРОВЕРКОЙ НА КРАШ КАРТИНКИ */}
+                  <Avatar 
+                    username={displayName} 
+                    avatarUrl={leaderAvatar} 
+                    size="sm" 
+                    className="!w-7 !h-7 text-[8px]" // Перебиваем размеры под дизайн виджета (w-7 h-7)
+                  />
 
                   {/* Юзернейм */}
                   <div className="max-w-[110px] truncate">
