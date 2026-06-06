@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Trophy, User, Star } from 'lucide-react';
+import { Trophy, Star } from 'lucide-react';
 import axios from 'axios'; 
+// 🔥 Импортируем твой кастомный хелпер аватарок
+import { getAvatarFallback } from '../utils/avatarHelper';
 
 const LeaderboardWidget = () => {
   const [leaders, setLeaders] = useState([]);
@@ -18,7 +20,7 @@ const LeaderboardWidget = () => {
       } catch (error) {
         console.error('Ошибка загрузки лидерборда:', error);
       } finally {
-        setLoading(false);
+        loading(false);
       }
     };
 
@@ -54,6 +56,7 @@ const LeaderboardWidget = () => {
             const isTop3 = index < 3;
             const currentStyle = isTop3 ? placeStyles[index] : { text: 'text-slate-500', bg: 'bg-slate-900/40 border-white/5' };
             const leaderAvatar = leader.avatarUrl || leader.avatar;
+            const displayName = leader.username || leader.name || "User";
 
             return (
               <div 
@@ -66,28 +69,15 @@ const LeaderboardWidget = () => {
                     {index + 1}
                   </div>
 
-                  {/* 🛡️ ЖЕЛЕЗОБЕТОННЫЙ ФИКС АВАТАРОК С ПОДСТРАХОВКОЙ ОТ БИТЫХ ССЫЛОК */}
-                  {leaderAvatar ? (
-                    <img 
-                      src={leaderAvatar} 
-                      alt={leader.username || "avatar"} 
-                      className="w-7 h-7 rounded-full object-cover border border-white/10 shadow-md shrink-0"
-                      onError={(e) => {
-                        e.target.onerror = null; // Предотвращаем бесконечный цикл, если сервис упадет
-                        // Подставляем красивый UI-аватар с первой буквой ника на индиго-синем фоне в тон сайта
-                        e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(leader.username || 'U')}&background=4f46e5&color=fff&bold=true`;
-                      }}
-                    />
-                  ) : (
-                    <div className="w-7 h-7 rounded-full bg-gradient-to-br from-indigo-600 to-blue-500 border border-indigo-400/30 flex items-center justify-center text-[11px] font-bold text-white uppercase shadow-md shadow-indigo-500/10 shrink-0 select-none">
-                      {leader.username ? leader.username.charAt(0) : <User size={12}/>}
-                    </div>
-                  )}
+                  {/* ⚡ ВЫЗОВ ТВОЕГО ГЛОБАЛЬНОГО ХЕЛПЕРА АВАТАРОК */}
+                  <div className="w-7 h-7 rounded-full overflow-hidden border border-white/10 shadow-md shrink-0 relative">
+                    {getAvatarFallback(displayName, leaderAvatar)}
+                  </div>
 
                   {/* Юзернейм */}
                   <div className="max-w-[110px] truncate">
                     <span className="text-xs font-bold text-slate-300 hover:text-blue-400 cursor-pointer transition-colors block truncate">
-                      {leader.username}
+                      {displayName}
                     </span>
                   </div>
                 </div>

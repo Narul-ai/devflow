@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { User, Clock, Flame, MessageSquare, Eye, Share2, Bookmark, Trash2, Check, UserPlus, UserCheck } from 'lucide-react';
 import Avatar from '../components/Avatar';
 import { useTranslation } from 'react-i18next'; // Подключаем хук перевода
+import { getAvatarFallback } from '../utils/avatarHelper';
 
 const PostCard = ({ 
   post, 
@@ -259,7 +260,8 @@ const PostCard = ({
           {/* КНОПКА УДАЛЕНИЯ */}
           {handleDeletePost && currentUserId && (post.author?._id === currentUserId || post.author?.id === currentUserId) && (
             <button 
-              onClick={() => {
+              onClick={
+                () => {
                 if (window.confirm(t('postCard.confirmDeletePost'))) {
                   handleDeletePost(post._id);
                 }
@@ -323,17 +325,11 @@ const PostCard = ({
                   >
                     <div className="flex items-center justify-between gap-2 min-w-0 w-full">
                       <div className="flex items-center gap-2 min-w-0">
-                        {commentAvatar ? (
-                          <img 
-                            src={commentAvatar} 
-                            alt={comment.author?.username || "avatar"} 
-                            className="w-5 h-5 rounded-full object-cover border border-white/10 shadow-sm shrink-0"
-                          />
-                        ) : (
-                          <div className="w-5 h-5 rounded-full bg-gradient-to-br from-blue-600/80 to-cyan-500/80 border border-blue-500/20 flex items-center justify-center text-[10px] font-bold text-white uppercase tracking-wider shrink-0 select-none leading-none">
-                            {comment.author?.username ? comment.author.username.charAt(0) : <User size={10}/>}
-                          </div>
-                        )}
+                        
+                        {/* ⚡ ЮЗАЕМ ТВОЙ ГЛОБАЛЬНЫЙ ХЕЛПЕР ДЛЯ КОММЕНТАРИЕВ */}
+                        <div className="w-5 h-5 rounded-full overflow-hidden border border-white/10 shadow-sm shrink-0 relative">
+                          {getAvatarFallback(comment.author?.username || "User", commentAvatar)}
+                        </div>
                         
                         <span className="text-[11px] font-bold text-slate-300 hover:text-blue-400 cursor-pointer transition-colors truncate max-w-[90px] sm:max-w-[150px]">
                           {comment.author?.username || t('postCard.commentAuthorFallback')}
