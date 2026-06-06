@@ -102,6 +102,8 @@ const UserProfileWidget = ({ user }) => {
 // ==========================================
 // 💎 УЛЬТРА-ПРЕМИУМ ВИДЖЕТ: ЛИДЕРБОРД
 // ==========================================
+import Avatar from './Avatar'; // 🔥 Импортируем наш умный Аватар (убедись, что путь к файлу верный)
+
 const LeaderboardWidget = ({ getAuthConfig }) => {
   const { t } = useTranslation();
   const [leaders, setLeaders] = useState([]);
@@ -148,6 +150,7 @@ const LeaderboardWidget = ({ getAuthConfig }) => {
             const isTop3 = index < 3;
             const currentStyle = isTop3 ? topStyles[index] : { text: 'text-slate-500', bg: 'bg-slate-950/40 border-white/[0.02]' };
             const leaderAvatar = leader.avatarUrl || leader.avatar;
+            const displayName = leader.username || "User";
 
             return (
               <div
@@ -155,23 +158,26 @@ const LeaderboardWidget = ({ getAuthConfig }) => {
                 className="flex items-center justify-between px-2 py-2 sm:p-2.5 rounded-xl bg-slate-950/20 border border-white/[0.01] hover:border-white/[0.05] hover:bg-slate-950/50 transition-all duration-200 w-full box-border min-w-0 gap-2 group/row"
               >
                 <div className="flex items-center gap-2.5 min-w-0 flex-1">
+                  {/* Место */}
                   <div className={`shrink-0 w-5 h-5 rounded-lg border flex items-center justify-center text-[9px] font-black font-mono ${currentStyle.bg} ${currentStyle.text}`}>
                     {index + 1}
                   </div>
 
-                  {leaderAvatar ? (
-                    <img src={leaderAvatar} alt="avatar" className="shrink-0 w-6 h-6 rounded-full object-cover border border-white/10 group-hover/row:border-white/20 transition-colors" />
-                  ) : (
-                    <div className="shrink-0 w-6 h-6 rounded-full bg-slate-900 border border-white/5 flex items-center justify-center text-[8px] font-black text-slate-400 uppercase">
-                      {leader.username ? leader.username.charAt(0) : 'U'}
-                    </div>
-                  )}
+                  {/* ⚡ ВЫЗОВ УМНОГО КОМПОНЕНТА АВАТАРОК С ПРОВЕРКОЙ НА ОШИБКУ КАРТИНКИ */}
+                  <Avatar 
+                    username={displayName} 
+                    avatarUrl={leaderAvatar} 
+                    size="sm" 
+                    className="!w-6 !h-6 text-[8px] group-hover/row:border-white/20 transition-colors" 
+                  />
 
+                  {/* Юзернейм */}
                   <span className="text-xs font-medium text-slate-300 truncate flex-1 group-hover/row:text-slate-200 transition-colors">
-                    @{leader.username}
+                    @{displayName}
                   </span>
                 </div>
 
+                {/* Репутация */}
                 <div className="shrink-0 flex items-center gap-0.5 bg-amber-500/[0.02] border border-amber-500/10 px-1.5 py-0.5 rounded-lg">
                   <Star size={9} className="text-amber-400/80 shrink-0" fill="currentColor" />
                   <span className="text-[9px] font-mono font-black text-amber-400/90">{leader.reputation || 0}</span>
