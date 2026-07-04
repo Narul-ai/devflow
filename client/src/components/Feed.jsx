@@ -11,7 +11,7 @@ import TrendingSidebar from './TrendingSidebar';
 import PostCard from './PostCard';
 
 // ==========================================
-// 💎 УЛЬТРА-ПРЕМИУМ ВИДЖЕТ: ПРОФИЛЬ ПОЛЬЗОВАТЕЛЯ
+// 💎 УЛЬТРА-ПРЕМИУМ ВИДЖЕТ: ПРОФИЛЬ ПОЛЬЗОВАТЕЛЯ (ИСПРАВЛЕН)
 // ==========================================
 const UserProfileWidget = ({ user }) => {
   const { t } = useTranslation();
@@ -39,17 +39,13 @@ const UserProfileWidget = ({ user }) => {
         <div className="shrink-0 relative group/avatar">
           <div className="absolute inset-0 bg-gradient-to-tr from-blue-500 via-cyan-400 to-indigo-500 rounded-full blur-md opacity-20 transition-all duration-500 group-hover/avatar:opacity-80 group-hover/avatar:scale-105"></div>
           <div className="relative p-[1.5px] rounded-full bg-gradient-to-b from-white/10 to-white/[0.02] transition-all duration-500 group-hover/avatar:from-blue-500/40 group-hover/avatar:to-cyan-400/40 shadow-2xl">
-            {userAvatar ? (
-              <img
-                src={userAvatar}
-                alt={user.username || "avatar"}
-                className="w-11 h-11 sm:w-12 sm:h-12 rounded-full object-cover bg-slate-950 ring-1 ring-black/50"
-              />
-            ) : (
-              <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-gradient-to-b from-slate-800 to-slate-950 flex items-center justify-center text-xs font-black text-slate-300 uppercase ring-1 ring-black/50 shadow-inner">
-                {user.username ? user.username.charAt(0) : <User size={14} className="text-slate-400" />}
-              </div>
-            )}
+            {/* ⚡ ИНТЕГРАЦИЯ УМНОГО КОМПОНЕНТА АВАТАРА */}
+            <Avatar 
+              username={user.username} 
+              avatarUrl={userAvatar} 
+              size="md" 
+              className="!w-11 !h-11 sm:!w-12 sm:!h-12 ring-1 ring-black/50" 
+            />
           </div>
 
           <span className="absolute bottom-0 right-0 flex h-3 w-3 items-center justify-center">

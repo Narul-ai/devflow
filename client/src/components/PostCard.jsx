@@ -343,10 +343,13 @@ const PostCard = ({
                     <div className="flex items-center justify-between gap-2 min-w-0 w-full">
                       <div className="flex items-center gap-2 min-w-0">
                         
-                        {/* ⚡ ЮЗАЕМ ТВОЙ ГЛОБАЛЬНЫЙ ХЕЛПЕР ДЛЯ КОММЕНТАРИЕВ */}
-                        <div className="w-5 h-5 rounded-full overflow-hidden border border-white/10 shadow-sm shrink-0 relative">
-                          {getAvatarFallback(comment.author?.username || "User", commentAvatar)}
-                        </div>
+                        {/* ⚡ ВЫЗОВ УМНОГО КОМПОНЕНТА АВАТАРОК ДЛЯ КОММЕНТАРИЕВ */}
+                        <Avatar 
+                          username={comment.author?.username || "User"} 
+                          avatarUrl={commentAvatar} 
+                          size="sm" 
+                          className="!w-5 !h-5 text-[8px] border border-white/10 shadow-sm shrink-0" 
+                        />
                         
                         <span className="text-[11px] font-bold text-slate-300 hover:text-blue-400 cursor-pointer transition-colors truncate max-w-[90px] sm:max-w-[150px]">
                           {comment.author?.username || t('postCard.commentAuthorFallback')}
